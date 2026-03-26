@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pharmacy">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#065F46">
+<title>Home Pharmacy</title>
+<link rel="apple-touch-icon" href="icon.png">
+<link rel="icon" href="icon.png">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F1F5F0;min-height:100vh;min-height:100dvh;max-width:480px;margin:0 auto;overflow-x:hidden}
+#app{padding-bottom:68px}
+.hdr{background:linear-gradient(135deg,#065F46,#0D9488);padding:max(env(safe-area-inset-top),16px) 16px 12px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:19px;font-weight:800;letter-spacing:-.5px}
+.hdr small{font-size:11px;opacity:.7;display:block;margin-top:1px}
+.btn-add{background:#fff;color:#065F46;border:none;border-radius:11px;padding:7px 13px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.ct{padding:10px 14px 14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{border-radius:14px;padding:11px 12px;text-align:center}
+.ab{border-radius:14px;padding:11px;margin-bottom:8px;font-size:12px}
+.ab .at{font-weight:700;font-size:12px;margin-bottom:4px}
+.ab .ar{display:flex;justify-content:space-between;padding:2px 0}
+.bd{display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;font-weight:600;white-space:nowrap;line-height:16px;color:#fff}
+.bg{background:#9CA3AF;color:#374151}
+.cd{background:#fff;border-radius:14px;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;gap:10px;align-items:center;margin-bottom:7px;border-left:4px solid #ccc}
+.cd.ot{opacity:.45}
+.qb{width:24px;height:24px;border-radius:7px;border:1.5px solid #CBD5E1;background:#F8FAFC;cursor:pointer;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;color:#334155}
+.qb2{width:32px;height:32px;border-radius:7px;border:1.5px solid #CBD5E1;background:#F8FAFC;cursor:pointer;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;color:#334155}
+.ib{background:none;border:none;cursor:pointer;font-size:12px;padding:2px}
+.sr{width:100%;padding:8px 11px;border-radius:11px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit;background:#fff}
+.ps{display:flex;gap:5px;margin-bottom:7px;overflow-x:auto;align-items:center;-webkit-overflow-scrolling:touch}
+.pl{padding:4px 10px;border-radius:99px;border:1.5px solid #D1D5DB;background:#fff;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;color:#64748B}
+.pl.on{background:#065F46;color:#fff;border-color:#065F46}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sb{background:#fff;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 8px;cursor:pointer;text-align:center;font-family:inherit}
+.bb{background:none;border:none;cursor:pointer;font-size:13px;color:#0D9488;font-weight:600;padding:0;margin-bottom:10px;font-family:inherit}
+.cc{background:#fff;border-radius:14px;padding:14px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.fg{margin-bottom:10px}
+.fg label{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:3px}
+.fg input,.fg textarea{width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit;background:#fff;box-sizing:border-box}
+.fg textarea{resize:vertical}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.catbtn{padding:6px 8px;border-radius:9px;border:2px solid #E5E7EB;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:#64748B;text-align:left;background:#fff}
+.ur{display:flex;gap:4px;flex-wrap:wrap}
+.chip{padding:5px 11px;border-radius:9px;font-size:12px;border:2px solid #E5E7EB;background:#fff;color:#64748B;cursor:pointer;font-family:inherit;font-weight:600}
+.chip.on{border-color:#0D9488;background:#ECFDF5;color:#065F46}
+.svbtn{width:100%;padding:11px;border-radius:13px;color:#fff;border:none;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.bn{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #E5E7EB;display:flex;padding:4px 0 max(env(safe-area-inset-bottom),6px);box-shadow:0 -2px 12px rgba(0,0,0,.06);z-index:50}
+.bn button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:4px 0;font-family:inherit;opacity:.4;transition:opacity .15s}
+.bn button.on{opacity:1}
+.bn .ni{font-size:17px}.bn .nl{font-size:9px;font-weight:700;color:#334155}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.mdl{background:#fff;border-radius:18px;padding:20px;max-width:280px;width:100%;text-align:center}
+.qs{background:#fff;border-radius:14px;padding:12px;margin-top:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.loading{height:100vh;height:100dvh;display:flex;align-items:center;justify-content:center;background:#F1F5F0;flex-direction:column;gap:8px}
+.spinner{width:32px;height:32px;border:3px solid #E5E7EB;border-top-color:#0D9488;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="app"><div class="loading"><div style="font-size:48px">💊</div><div class="spinner"></div><div style="color:#64748B;font-weight:500;font-size:13px">Connecting...</div></div></div>
+
+<script>
+// ═══ FIREBASE ═══
+firebase.initializeApp({
+  apiKey:"AIzaSyB0JCcoreS7kogGTYOM8NwhrPHcuiLMRlU",
+  authDomain:"pharmacy-2711.firebaseapp.com",
+  databaseURL:"https://pharmacy-2711-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"pharmacy-2711",
+  storageBucket:"pharmacy-2711.firebasestorage.app",
+  messagingSenderId:"594051637720",
+  appId:"1:594051637720:web:f8db8143bf8cb05b3c52ad"
+});
+var db=firebase.database();
+var medsRef=db.ref("meds");
+var contactsRef=db.ref("contacts");
+
+// ═══ CONSTANTS ═══
+var CATS={
+  pain_fever:{l:"Pain & Fever",i:"\uD83D\uDC8A",c:"#DC2626"},
+  cold_flu:{l:"Cold & Flu",i:"\uD83E\uDD27",c:"#2563EB"},
+  digestive:{l:"Digestive",i:"\uD83E\uDE7A",c:"#16A34A"},
+  allergies:{l:"Allergies",i:"\uD83C\uDF38",c:"#D97706"},
+  skin_wounds:{l:"Skin & Wounds",i:"\uD83E\uDE79",c:"#EA580C"},
+  antibiotics:{l:"Antibiotics",i:"\uD83D\uDC89",c:"#7C3AED"},
+  vitamins:{l:"Vitamins",i:"\u2728",c:"#0D9488"},
+  eye_ear_nose:{l:"Eye/Ear/Nose",i:"\uD83D\uDC41\uFE0F",c:"#475569"},
+  vet_milo:{l:"Vet \u2014 Milo",i:"\uD83D\uDC3E",c:"#A855F7"},
+  other:{l:"Other",i:"\uD83D\uDCE6",c:"#6B7280"}
+};
+var LOCS=["Small Cabinet","Box 1","Box 2","Fridge","Bathroom"];
+var UNITS=["box","tube","bottle","pack","piece"];
+var SYMS=[
+  {id:"headache",l:"Headache",i:"\uD83E\uDD15",cats:["pain_fever"]},
+  {id:"fever",l:"Fever",i:"\uD83C\uDF21\uFE0F",cats:["pain_fever","cold_flu"]},
+  {id:"cold",l:"Cold / Runny nose",i:"\uD83E\uDD27",cats:["cold_flu","allergies"]},
+  {id:"sore_throat",l:"Sore Throat",i:"\uD83D\uDE2E",cats:["cold_flu","pain_fever"]},
+  {id:"cough",l:"Cough",i:"\uD83D\uDE37",cats:["cold_flu"]},
+  {id:"stomach",l:"Stomach Ache",i:"\uD83E\uDD22",cats:["digestive"]},
+  {id:"nausea",l:"Nausea",i:"\uD83E\uDD2E",cats:["digestive"]},
+  {id:"diarrhea",l:"Diarrhea",i:"\uD83D\uDCA7",cats:["digestive"]},
+  {id:"heartburn",l:"Heartburn",i:"\uD83D\uDD25",cats:["digestive"]},
+  {id:"allergy",l:"Allergies",i:"\uD83C\uDF3C",cats:["allergies"]},
+  {id:"burn",l:"Burn",i:"\uD83D\uDD25",cats:["skin_wounds"]},
+  {id:"cut",l:"Cut / Wound",i:"\uD83E\uDE78",cats:["skin_wounds"]},
+  {id:"muscle",l:"Muscle Pain",i:"\uD83D\uDCAA",cats:["pain_fever"]},
+  {id:"back",l:"Back Pain",i:"\uD83E\uDDB4",cats:["pain_fever"]},
+  {id:"bite",l:"Insect Bite",i:"\uD83E\uDD9F",cats:["skin_wounds","allergies"]},
+  {id:"rash",l:"Skin Rash",i:"\uD83D\uDE16",cats:["skin_wounds","allergies"]},
+  {id:"eye",l:"Eye Irritation",i:"\uD83D\uDC41\uFE0F",cats:["eye_ear_nose"]},
+  {id:"ear",l:"Earache",i:"\uD83D\uDC42",cats:["eye_ear_nose","pain_fever"]},
+  {id:"period",l:"Menstrual Pain",i:"\u2640\uFE0F",cats:["pain_fever"]},
+  {id:"sleep",l:"Sleep Issues",i:"\uD83D\uDE34",cats:["other"]}
+];
+var PRE=[
+  {n:"Tachipirina 1000mg",cat:"pain_fever",u:"box",no:"Paracetamol. Max 3g/day. 1 tab every 6-8h."},
+  {n:"Efferalgan 1000mg",cat:"pain_fever",u:"box",no:"Paracetamol effervescent. Dissolve in water."},
+  {n:"Moment 200mg",cat:"pain_fever",u:"box",no:"Ibuprofen. Take with food."},
+  {n:"Nurofen 400mg",cat:"pain_fever",u:"box",no:"Ibuprofen. Max 1200mg/day."},
+  {n:"Aspirina 500mg",cat:"pain_fever",u:"box",no:"Aspirin. Not on empty stomach."},
+  {n:"Voltaren Emulgel",cat:"pain_fever",u:"tube",no:"Diclofenac gel. Apply 3-4x/day."},
+  {n:"Spasfon",cat:"digestive",u:"box",no:"Stomach cramps. Max 6/day."},
+  {n:"Gaviscon",cat:"digestive",u:"bottle",no:"Heartburn. After meals."},
+  {n:"Imodium",cat:"digestive",u:"box",no:"Loperamide. For diarrhea."},
+  {n:"Biochetasi",cat:"digestive",u:"box",no:"Effervescent. Digestive aid."},
+  {n:"Enterogermina",cat:"digestive",u:"box",no:"Probiotics."},
+  {n:"Rennie",cat:"digestive",u:"box",no:"Chewable antacid."},
+  {n:"Actifed",cat:"cold_flu",u:"box",no:"Decongestant for cold/flu."},
+  {n:"Rinazina Spray",cat:"cold_flu",u:"bottle",no:"Nasal decongestant. Max 3 days."},
+  {n:"Physiomer",cat:"cold_flu",u:"bottle",no:"Seawater nasal spray."},
+  {n:"Fluimucil 600mg",cat:"cold_flu",u:"box",no:"Mucolytic for cough."},
+  {n:"Strepsils",cat:"cold_flu",u:"box",no:"Throat lozenges."},
+  {n:"Zirtec 10mg",cat:"allergies",u:"box",no:"Cetirizine. 1/day."},
+  {n:"Betadine 10%",cat:"skin_wounds",u:"bottle",no:"Wound disinfectant."},
+  {n:"Acqua Ossigenata",cat:"skin_wounds",u:"bottle",no:"Hydrogen peroxide."},
+  {n:"Connettivina Crema",cat:"skin_wounds",u:"tube",no:"Burns, wounds, skin repair."},
+  {n:"Gentalyn Beta",cat:"skin_wounds",u:"tube",no:"Antibiotic+cortisone. Rx."},
+  {n:"Cerotti (Band-Aids)",cat:"skin_wounds",u:"box",no:"Assorted plasters."},
+  {n:"Garze Sterili",cat:"skin_wounds",u:"pack",no:"Sterile gauze."},
+  {n:"Foille Scottature",cat:"skin_wounds",u:"tube",no:"For minor burns."},
+  {n:"Augmentin",cat:"antibiotics",u:"box",no:"PRESCRIPTION. Full course."},
+  {n:"Vitamina C 1000mg",cat:"vitamins",u:"box",no:"Vitamin C effervescent."},
+  {n:"Vitamina D",cat:"vitamins",u:"bottle",no:"Important in winter."},
+  {n:"Magnesio Supremo",cat:"vitamins",u:"bottle",no:"Fatigue, cramps."},
+  {n:"Collirio",cat:"eye_ear_nose",u:"bottle",no:"Eye drops."},
+  {n:"Melatonina",cat:"other",u:"box",no:"Sleep aid. 1-3mg."},
+  {n:"Thermometer",cat:"other",u:"piece",no:"Digital. Check battery."}
+];
+var DEF_CONTACTS={
+  c1:{id:"c1",type:"pharmacy",label:"\uD83C\uDFE5 Closest Pharmacy",name:"",address:"",phone:"",notes:"",h24:false},
+  c2:{id:"c2",type:"pharmacy",label:"\uD83C\uDFE5 24/7 Pharmacy",name:"",address:"",phone:"",notes:"Open 24 hours",h24:true},
+  c3:{id:"c3",type:"vet",label:"\uD83D\uDC3E Milo's Vet",name:"",address:"",phone:"",notes:""},
+  c4:{id:"c4",type:"vet",label:"\uD83D\uDEA8 Milo 24/7 Emergency Vet",name:"",address:"",phone:"",notes:"Emergency",h24:true}
+};
+
+// ═══ STATE ═══
+var meds={};
+var contacts={};
+var tab="home";
+var search="";
+var filterCat="all";
+var inStockOnly=false;
+var selSym=null;
+var form=null;
+var editId=null;
+var delId=null;
+var editContact=null;
+var ready=false;
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function medsArr(){return Object.values(meds)}
+function contactsArr(){return Object.values(contacts)}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+function expInfo(d){
+  if(!d)return{s:"unknown",l:"No date",c:"#9CA3AF"};
+  var now=new Date();
+  var e=new Date(d+"-01");
+  e.setMonth(e.getMonth()+1);
+  e.setDate(0);
+  var diff=(e-now)/864e5;
+  if(diff<0)return{s:"expired",l:"Expired",c:"#DC2626"};
+  if(diff<90)return{s:"soon",l:Math.ceil(diff)+"d left",c:"#D97706"};
+  var parts=d.split("-");
+  var mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return{s:"ok",l:mn[parseInt(parts[1])-1]+" "+parts[0],c:"#16A34A"};
+}
+
+// ═══ FIREBASE LISTENERS ═══
+medsRef.on("value",function(snap){
+  var v=snap.val();
+  if(v){meds=v}else{
+    var seed={};
+    PRE.forEach(function(m){var id=uid();seed[id]={id:id,name:m.n,cat:m.cat,exp:"",qty:0,unit:m.u,loc:"",notes:m.no}});
+    medsRef.set(seed);
+    meds=seed;
+  }
+  ready=true;
+  render();
+});
+contactsRef.on("value",function(snap){
+  var v=snap.val();
+  if(v){contacts=v}else{contactsRef.set(DEF_CONTACTS);contacts=JSON.parse(JSON.stringify(DEF_CONTACTS))}
+  render();
+});
+
+// ═══ FORM HELPER FUNCTIONS ═══
+function setCat(c){if(form){form.cat=c;render()}}
+function setUnit(u){if(form){form.unit=u;render()}}
+function setLoc(l){if(form){form.loc=l;render()}}
+function formQtyUp(){if(form){form.qty=(form.qty||0)+1;render()}}
+function formQtyDown(){if(form){form.qty=Math.max(0,(form.qty||0)-1);render()}}
+function updateFormName(v){if(form){form.name=v;var btn=document.getElementById("save-btn");if(btn){btn.disabled=!v.trim();btn.style.background=v.trim()?"linear-gradient(135deg,#065F46,#0D9488)":"#D1D5DB";btn.style.boxShadow=v.trim()?"0 4px 12px rgba(13,148,136,.3)":"none"}}}
+function updateFormExp(v){if(form){form.exp=v}}
+function updateFormQtyInput(v){if(form){form.qty=Math.max(0,parseInt(v)||0)}}
+function updateFormLoc(v){if(form){form.loc=v}}
+function updateFormNotes(v){if(form){form.notes=v}}
+
+// ═══ ACTIONS ═══
+function go(t){tab=t;selSym=null;render()}
+function chgQty(id,d){var m=meds[id];if(m){m.qty=Math.max(0,(m.qty||0)+d);medsRef.child(id).update({qty:m.qty})}}
+function openAdd(){form={name:"",cat:"pain_fever",exp:"",qty:1,unit:"box",loc:"",notes:""};editId=null;tab="form";render()}
+function openEdit(id){var m=meds[id];if(m){form={id:m.id,name:m.name,cat:m.cat,exp:m.exp||"",qty:m.qty||0,unit:m.unit,loc:m.loc||"",notes:m.notes||""};editId=id;tab="form";render()}}
+function handleSave(){
+  if(!form||!form.name.trim())return;
+  if(editId){medsRef.child(editId).set({id:editId,name:form.name,cat:form.cat,exp:form.exp,qty:form.qty,unit:form.unit,loc:form.loc,notes:form.notes})}
+  else{var id=uid();medsRef.child(id).set({id:id,name:form.name,cat:form.cat,exp:form.exp,qty:form.qty||0,unit:form.unit,loc:form.loc,notes:form.notes})}
+  form=null;editId=null;tab="cabinet";
+}
+function askDel(id){delId=id;render()}
+function confirmDel(){if(delId){medsRef.child(delId).remove();delId=null}}
+function cancelDel(){delId=null;render()}
+function pickSym(id){selSym=id;render()}
+function backSym(){selSym=null;render()}
+function editCon(id){editContact=id;render()}
+function cancelCon(){editContact=null;render()}
+function saveCon(id){
+  var upd={};
+  ["name","address","phone","notes"].forEach(function(f){var el=document.getElementById("ce-"+f);if(el)upd[f]=el.value});
+  contactsRef.child(id).update(upd);
+  editContact=null;
+}
+function toggleStock(){inStockOnly=!inStockOnly;render()}
+function setFilter(k){filterCat=(filterCat===k)?"all":k;render()}
+function updateSearch(v){search=v;render()}
+function cancelForm(){form=null;tab="cabinet";render()}
+
+// ═══ RENDER ═══
+function render(){
+  try{
+  if(!ready)return;
+  var ma=medsArr();
+  var inStock=ma.filter(function(m){return m.qty>0});
+  var expired=ma.filter(function(m){return m.qty>0&&expInfo(m.exp).s==="expired"});
+  var soon=ma.filter(function(m){return m.qty>0&&expInfo(m.exp).s==="soon"});
+  var oos=ma.filter(function(m){return m.qty===0});
+  var h="";
+
+  // HEADER
+  h+='<div class="hdr"><div><h1>&#10010; Home Pharmacy</h1><small><span class="sync-dot" style="background:#22C55E"></span>'+inStock.length+' in stock &middot; '+ma.length+' total</small></div><button class="btn-add" onclick="openAdd()">+ Add</button></div>';
+  h+='<div class="ct">';
+
+  // ─── HOME ───
+  if(tab==="home"){
+    h+='<div class="g2" style="margin-bottom:12px">';
+    h+='<div class="st" style="background:#ECFDF5"><div style="font-size:20px">&#x1F48A;</div><div style="font-size:20px;font-weight:800;color:#065F46">'+inStock.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">In Stock</div></div>';
+    h+='<div class="st" style="background:'+(expired.length?"#FEF2F2":"#F9FAFB")+'"><div style="font-size:20px">&#x26A0;&#xFE0F;</div><div style="font-size:20px;font-weight:800;color:'+(expired.length?"#DC2626":"#9CA3AF")+'">'+expired.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">Expired</div></div>';
+    h+='<div class="st" style="background:'+(soon.length?"#FFFBEB":"#F9FAFB")+'"><div style="font-size:20px">&#x23F0;</div><div style="font-size:20px;font-weight:800;color:'+(soon.length?"#D97706":"#9CA3AF")+'">'+soon.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">Expiring Soon</div></div>';
+    h+='<div class="st" style="background:#F9FAFB"><div style="font-size:20px">&#x1F4ED;</div><div style="font-size:20px;font-weight:800;color:#9CA3AF">'+oos.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">Out of Stock</div></div>';
+    h+='</div>';
+    if(expired.length){
+      h+='<div class="ab" style="background:#FEF2F2;border:1px solid #FECACA"><div class="at" style="color:#DC2626">&#x1F6A8; Expired</div>';
+      expired.forEach(function(m){h+='<div class="ar"><span style="color:#7F1D1D">'+esc(m.name)+'</span><span class="bd" style="background:#DC2626">'+expInfo(m.exp).l+'</span></div>'});
+      h+='</div>';
+    }
+    if(soon.length){
+      h+='<div class="ab" style="background:#FFFBEB;border:1px solid #FDE68A"><div class="at" style="color:#D97706">&#x23F0; Expiring Soon</div>';
+      soon.forEach(function(m){h+='<div class="ar"><span style="color:#78350F">'+esc(m.name)+'</span><span class="bd" style="background:#D97706">'+expInfo(m.exp).l+'</span></div>'});
+      h+='</div>';
+    }
+    h+='<div class="qs"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:4px">&#x1F680; Quick Start</div><div style="font-size:12px;color:#64748B;line-height:1.5">Common FR/IT medicines pre-loaded at <b>0 qty</b>. Go to <b>Cabinet</b>, bump up quantities, add expiry dates &amp; locations.</div></div>';
+  }
+
+  // ─── CABINET ───
+  else if(tab==="cabinet"){
+    var list=ma.slice();
+    if(inStockOnly)list=list.filter(function(m){return m.qty>0});
+    if(filterCat!=="all")list=list.filter(function(m){return m.cat===filterCat});
+    if(search)list=list.filter(function(m){var s=search.toLowerCase();return m.name.toLowerCase().indexOf(s)>=0||(m.loc||"").toLowerCase().indexOf(s)>=0||(m.notes||"").toLowerCase().indexOf(s)>=0});
+    list.sort(function(a,b){if(!a.qty&&b.qty)return 1;if(a.qty&&!b.qty)return-1;return a.name.localeCompare(b.name)});
+    h+='<input class="sr" type="text" placeholder="Search..." value="'+esc(search)+'" oninput="updateSearch(this.value)" style="margin-bottom:7px">';
+    h+='<div class="ps"><button class="pl '+(inStockOnly?"on":"")+'" onclick="toggleStock()">'+(inStockOnly?"&#x2705; In stock":"All")+'</button>';
+    var catKeys=Object.keys(CATS);
+    catKeys.forEach(function(k){var v=CATS[k];var c=ma.filter(function(m){return m.cat===k&&(!inStockOnly||m.qty>0)}).length;if(c)h+='<button class="pl '+(filterCat===k?"on":"")+'" style="'+(filterCat===k?"background:"+v.c+";border-color:"+v.c:"")+'" onclick="setFilter(\''+k+'\')">'+v.i+c+'</button>'});
+    h+='</div>';
+    if(!list.length){h+='<div style="text-align:center;padding:24px;color:#94A3B8"><div style="font-size:32px">&#x1F50D;</div><div style="font-size:12px;margin-top:4px">No medicines found</div></div>'}
+    else{h+='<div style="font-size:10px;color:#94A3B8;margin-bottom:5px">'+list.length+' result'+(list.length>1?"s":"")+'</div>';list.forEach(function(m){h+=medCard(m)})}
+  }
+
+  // ─── GUIDE ───
+  else if(tab==="guide"){
+    if(!selSym){
+      h+='<div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:2px">What\'s wrong?</div><div style="font-size:12px;color:#64748B;margin-bottom:10px">Tap a symptom</div><div class="sg">';
+      SYMS.forEach(function(s){var av=ma.filter(function(m){return s.cats.indexOf(m.cat)>=0&&m.qty>0}).length;h+='<button class="sb" onclick="pickSym(\''+s.id+'\')"><div style="font-size:22px;margin-bottom:2px">'+s.i+'</div><div style="font-weight:600;font-size:11px;color:#1E293B">'+s.l+'</div><div style="font-size:10px;font-weight:500;margin-top:1px;color:'+(av?"#16A34A":"#DC2626")+'">'+(av?av+" available":"Nothing")+'</div></button>'});
+      h+='</div>';
+    } else {
+      var sym=null;
+      SYMS.forEach(function(s){if(s.id===selSym)sym=s});
+      if(!sym){selSym=null;render();return}
+      var sm=ma.filter(function(m){return sym.cats.indexOf(m.cat)>=0&&m.qty>0});
+      h+='<button class="bb" onclick="backSym()">&larr; Back</button>';
+      h+='<div style="background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)"><div style="font-size:28px">'+sym.i+'</div><h3 style="margin:3px 0 0;font-size:16px;font-weight:800;color:#1E293B">'+sym.l+'</h3><div style="font-size:11px;color:#64748B;margin-top:2px">Looking in: '+sym.cats.map(function(c){return CATS[c].l}).join(", ")+'</div></div>';
+      if(sm.length){h+='<div style="font-weight:700;font-size:12px;color:#16A34A;margin-bottom:6px">&#x2705; '+sm.length+' available:</div>';sm.forEach(function(m){h+=medCard(m)})}
+      else{h+='<div style="background:#FEF2F2;border-radius:14px;padding:16px;text-align:center;border:1px solid #FECACA"><div style="font-size:28px;margin-bottom:4px">&#x1F615;</div><div style="font-weight:700;color:#DC2626;margin-bottom:3px">Nothing in stock</div><div style="font-size:12px;color:#7F1D1D">Time to visit the pharmacy!</div></div>'}
+    }
+  }
+
+  // ─── CONTACTS ───
+  else if(tab==="contacts"){
+    var ca=contactsArr();
+    h+='<div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:2px">Important Contacts</div><div style="font-size:12px;color:#64748B;margin-bottom:10px">Pharmacies, vets &amp; emergency</div>';
+    h+='<div style="font-weight:700;font-size:12px;color:#065F46;margin-bottom:6px">&#x1F3E5; Pharmacies</div>';
+    ca.forEach(function(c){if(c.type==="pharmacy")h+=contactCard(c)});
+    h+='<div style="font-weight:700;font-size:12px;color:#A855F7;margin-bottom:6px;margin-top:14px">&#x1F43E; Milo &mdash; Vet</div>';
+    ca.forEach(function(c){if(c.type==="vet")h+=contactCard(c)});
+    h+='<div style="background:#FEF2F2;border-radius:14px;padding:12px;margin-top:14px;border:1px solid #FECACA;text-align:center"><div style="font-weight:700;font-size:13px;color:#DC2626;margin-bottom:2px">&#x1F6A8; Emergency</div><div><a href="tel:118" style="color:#DC2626;font-weight:800;font-size:18px;text-decoration:none">118</a><span style="margin:0 8px;opacity:.3">|</span><a href="tel:112" style="color:#DC2626;font-weight:800;font-size:18px;text-decoration:none">112</a></div><div style="font-size:10px;color:#9CA3AF;margin-top:3px">Medical &middot; General</div></div>';
+  }
+
+  // ─── FORM ───
+  else if(tab==="form"&&form){
+    h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2 style="font-size:16px;font-weight:800;color:#1E293B">'+(editId?"Edit Medicine":"Add Medicine")+'</h2><button onclick="cancelForm()" style="background:none;border:none;font-size:12px;color:#64748B;cursor:pointer;font-weight:600;font-family:inherit">Cancel</button></div>';
+
+    // Name
+    h+='<div class="fg"><label>Name *</label><input value="'+esc(form.name)+'" oninput="updateFormName(this.value)" placeholder="e.g. Efferalgan, Doliprane..."></div>';
+
+    // Category
+    h+='<div class="fg"><label>Category</label><div class="cg">';
+    var catKeys2=Object.keys(CATS);
+    catKeys2.forEach(function(k){
+      var v=CATS[k];
+      var isOn=form.cat===k;
+      h+='<button class="catbtn" style="border-color:'+(isOn?v.c:"#E5E7EB")+';color:'+(isOn?v.c:"#64748B")+';background:'+(isOn?v.c+"15":"#fff")+'" onclick="setCat(\''+k+'\')">'+v.i+' '+v.l+'</button>';
+    });
+    h+='</div></div>';
+
+    // Expiry + Qty
+    h+='<div class="g2" style="gap:10px"><div class="fg"><label>Expiry</label><input type="month" value="'+(form.exp||"")+'" onchange="updateFormExp(this.value)"></div>';
+    h+='<div class="fg"><label>Quantity</label><div style="display:flex;align-items:center;gap:4px"><button class="qb2" onclick="formQtyDown()">&minus;</button><input type="number" value="'+form.qty+'" min="0" onchange="updateFormQtyInput(this.value)" style="width:44px;text-align:center;padding:5px 3px;border-radius:9px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit"><button class="qb2" onclick="formQtyUp()">+</button></div></div></div>';
+
+    // Unit
+    h+='<div class="fg"><label>Unit</label><div class="ur">';
+    UNITS.forEach(function(u){h+='<button class="chip'+(form.unit===u?" on":"")+'" onclick="setUnit(\''+u+'\')">'+u+'</button>'});
+    h+='</div></div>';
+
+    // Location
+    h+='<div class="fg"><label>&#x1F4CD; Location</label><div class="ur">';
+    LOCS.forEach(function(l){h+='<button class="chip'+(form.loc===l?" on":"")+'" onclick="setLoc(\''+esc(l)+'\')">'+esc(l)+'</button>'});
+    h+='</div><input value="'+esc(form.loc)+'" oninput="updateFormLoc(this.value)" placeholder="Or type custom..." style="margin-top:4px;font-size:12px;width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid #D1D5DB;font-family:inherit;box-sizing:border-box"></div>';
+
+    // Notes
+    h+='<div class="fg"><label>Notes</label><textarea oninput="updateFormNotes(this.value)" placeholder="Dosage, instructions..." rows="2">'+esc(form.notes)+'</textarea></div>';
+
+    // Save
+    var canSave=form.name.trim().length>0;
+    h+='<button id="save-btn" class="svbtn" onclick="handleSave()" '+(canSave?"":"disabled")+' style="background:'+(canSave?"linear-gradient(135deg,#065F46,#0D9488)":"#D1D5DB")+';box-shadow:'+(canSave?"0 4px 12px rgba(13,148,136,.3)":"none")+'">'+(editId?"&#x1F4BE; Save":"&#x2705; Add Medicine")+'</button>';
+  }
+
+  h+='</div>'; // close .ct
+
+  // NAV
+  h+='<div class="bn">';
+  [{id:"home",i:"&#x1F3E0;",l:"Home"},{id:"cabinet",i:"&#x1F5C4;&#xFE0F;",l:"Cabinet"},{id:"guide",i:"&#x1FA7A;",l:"Health"},{id:"contacts",i:"&#x1F4CD;",l:"Contacts"}].forEach(function(t){
+    var isOn=tab===t.id||(t.id==="cabinet"&&tab==="form");
+    h+='<button class="'+(isOn?"on":"")+'" onclick="go(\''+t.id+'\')"><span class="ni">'+t.i+'</span><span class="nl">'+t.l+'</span></button>';
+  });
+  h+='</div>';
+
+  // DELETE MODAL
+  if(delId){
+    var dm=meds[delId];
+    h+='<div class="mbg" onclick="cancelDel()"><div class="mdl" onclick="event.stopPropagation()"><div style="font-size:28px;margin-bottom:4px">&#x1F5D1;&#xFE0F;</div><div style="font-weight:700;font-size:14px;margin-bottom:2px">Delete?</div><div style="font-size:12px;color:#64748B;margin-bottom:12px">'+(dm?esc(dm.name):"")+'</div><div style="display:flex;gap:8px"><button class="mb" style="border:1.5px solid #D1D5DB;background:#fff" onclick="cancelDel()">Cancel</button><button class="mb" style="border:none;background:#DC2626;color:#fff" onclick="confirmDel()">Delete</button></div></div></div>';
+  }
+
+  document.getElementById("app").innerHTML=h;
+  }catch(e){console.error("Render error:",e)}
+}
+
+function medCard(m){
+  var cat=CATS[m.cat]||CATS.other;
+  var e=expInfo(m.exp);
+  var h='<div class="cd'+(m.qty===0?" ot":"")+'" style="border-left-color:'+cat.c+'">';
+  h+='<div style="font-size:22px;width:28px;text-align:center;flex-shrink:0">'+cat.i+'</div>';
+  h+='<div style="flex:1;min-width:0">';
+  h+='<div style="font-weight:700;font-size:13px;color:#1E293B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.name)+'</div>';
+  h+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">';
+  h+='<span class="bd" style="background:'+e.c+'">'+e.l+'</span>';
+  if(m.loc)h+='<span class="bd bg">&#x1F4CD; '+esc(m.loc)+'</span>';
+  if(m.qty===0)h+='<span class="bd" style="background:#DC2626">OUT</span>';
+  h+='</div>';
+  if(m.notes)h+='<div style="font-size:10px;color:#94A3B8;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.notes)+'</div>';
+  h+='</div>';
+  h+='<div style="display:flex;flex-direction:column;gap:3px;align-items:center;flex-shrink:0">';
+  h+='<div style="display:flex;gap:2px;align-items:center"><button class="qb" onclick="chgQty(\''+m.id+'\',-1)">&minus;</button><span style="width:20px;text-align:center;font-weight:700;font-size:13px;color:#1E293B">'+m.qty+'</span><button class="qb" onclick="chgQty(\''+m.id+'\',1)">+</button></div>';
+  h+='<div style="display:flex;gap:6px"><button class="ib" onclick="openEdit(\''+m.id+'\')">&#x270F;&#xFE0F;</button><button class="ib" onclick="askDel(\''+m.id+'\')">&#x1F5D1;&#xFE0F;</button></div>';
+  h+='</div></div>';
+  return h;
+}
+
+function contactCard(c){
+  if(editContact===c.id){
+    var h='<div class="cc" style="border:2px solid #0D9488"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:8px">'+c.label+'</div>';
+    ["name","address","phone","notes"].forEach(function(f){
+      h+='<div class="fg"><label style="text-transform:capitalize">'+f+'</label><input id="ce-'+f+'" value="'+esc(c[f])+'" placeholder="'+(f==="name"?"e.g. Farmacia Centrale":f==="phone"?"+39 06 ...":f==="address"?"Via Roma 1, Rome":"Notes...")+'"></div>';
+    });
+    h+='<div style="display:flex;gap:6px"><button style="flex:1;padding:9px;border-radius:10px;background:#065F46;color:#fff;border:none;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px" onclick="saveCon(\''+c.id+'\')">Save</button><button style="padding:9px;border-radius:10px;background:#F1F5F9;border:none;font-weight:600;cursor:pointer;font-family:inherit;font-size:12px;color:#64748B" onclick="cancelCon()">Cancel</button></div></div>';
+    return h;
+  }
+  var empty=!c.name&&!c.address&&!c.phone;
+  var h='<div class="cc '+(c.h24?"h4":"rg")+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:2px">'+c.label+'</div>';
+  if(empty){h+='<div style="font-size:12px;color:#94A3B8;font-style:italic">Tap &#x270F;&#xFE0F; to add details</div>'}
+  else{
+    if(c.name)h+='<div style="font-size:13px;font-weight:600;color:#334155">'+esc(c.name)+'</div>';
+    if(c.address)h+='<div style="font-size:12px;color:#64748B;margin-top:2px">&#x1F4CD; '+esc(c.address)+'</div>';
+    if(c.phone)h+='<a href="tel:'+esc(c.phone)+'" style="font-size:14px;color:#0D9488;font-weight:700;margin-top:4px;display:inline-block;text-decoration:none">&#x1F4DE; '+esc(c.phone)+'</a>';
+    if(c.notes)h+='<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+esc(c.notes)+'</div>';
+  }
+  h+='</div><button class="ib" onclick="editCon(\''+c.id+'\')">&#x270F;&#xFE0F;</button></div></div>';
+  return h;
+}
+</script>
+</body>
+</html>
