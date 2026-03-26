@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Pharmacy">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#065F46">
+<title>Home Pharmacy</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxODAgMTgwIj48cmVjdCB3aWR0aD0iMTgwIiBoZWlnaHQ9IjE4MCIgcng9IjQwIiBmaWxsPSIjMDY1RjQ2Ii8+PHJlY3QgeD0iNjUiIHk9IjMwIiB3aWR0aD0iNTAiIGhlaWdodD0iMTIwIiByeD0iOCIgZmlsbD0iI2ZmZiIvPjxyZWN0IHg9IjMwIiB5PSI2NSIgd2lkdGg9IjEyMCIgaGVpZ2h0PSI1MCIgcng9IjgiIGZpbGw9IiNmZmYiLz48L3N2Zz4=">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAYAAAA9zQYyAAAFaklEQVR4nO3dW3LbMBAF0Or+N+1+kjiOJT4A7gB3zjeftiQSuBwMKdn59fPz8w+C+PXuDYA1CZooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZQgaKIEQRMlCJooQdBECYImShA0UYKgiRIETZT4/e4N2NsffxVn9ke/3r0JVfz6wH8LTNBECYImShA0UYKgiRIETZQgaKIEQRMlCJoo8Xn3BsijX8hxyf9Yfe9tqEfQa/j7gQpB0Gt4i5NjEdJa3jqghqDX8BYnxyzk2MZXU8K92+sR9FLe7uSYhBxbeyqYkGMDlxacFItIO1jSwrp4MtR30NjBL+Z5Ng23Hxib0GPY81OjlGKs4u9hj0PPTc5BiruLvYY9jz0HOTY6zi7mKPYc9Dz02OsYq7iz2GPQ89NznGKu4u9hj2PPTc5xiruLvYY9jz03OcYq7i72GPY89NznGKu4u9hj2PPTc5xirOLvYa9Bz0/OcYqzi72GvQ89PznGKs4u9hr0PPT85xirOLvYa9Dz0/OcYqzi72GvQ89PznGKs4u9hr0PPT85xirOKJY49hz0PPT85xirOKJY49hz0PPT85xirOKJY49hz0PPT85xirOKJY49hz0PPT85xirOKJY49hz0PPT85RineJvYc9jz0fOUYp3ib2HPY89HzlGKd4m9hz2PPR85RineJvYc9jz0fOUYp3ib2HPY89HzlGKd4m9hz2PPR85JineKPYe9Dz0nOU4p3iT2HPY89JzlOKd4k9hz2PPS85TineJPYc9jz0vOU4pziT2HPa89LzlOKc4k9hz2vPS85TinOJPYc9rz0vOc4oziT2HPa89TznOKM4k9hz2vPU85zijOJPYc9rz1POc4oziT2PPa89TznOKM4k9hz2vPU85zijOJPYc9rz1POc4oziT2HPa89bznOKM4g9hz2vPW85zijOIPYc9rz1vOc4oziD2HPa89bznOKM4g9hz2vPW85zigAAR9BECYImShA0UYKgiRIETZQgaKIEQRMlCJoo8evdG0Bs8DUBO1n4Gs8VE/Ra3mJGjBxr+Sv/X0yO81nr5BiruLvYY9jz0HOTY6zi7mKPYc9Dz02OsYq7iz2GPQ89NznGKu4u9hj2PPTc5BiruLvYY9jz0HOTY6zi7mKPYc9Dz02OsYq7iz2GPQ89NznGKu4u9hj2PPTc5BiruLvYY9jz03OcYqzi72GPY89NznGKs4u9hj2PPTc5xirOLvYY9jz03OcYqzi72GPY89NznGKs4u9hj2PPTc5xiruLvYY9jz03OcYq7i72GPY89NznGKu4u9hj2PPTc5xireLvYa9Bz0/OcYqzi72GvQ89PznGKs4u9hr0PPT85xirOLvYa9Dz0/OcYqzi72GvQ89PznGKs4u9hr0PPT85xirOLvYa9Dz0/OcYq7i72GvQ89PznGKu4u9hj2PPTc5xireLvYY9jz0HOTY6zi7mKPYc9Dz02OsYq7iz2GPQ89NznGKu4s9hz0PPTc5RineJvYc9jz0fOUYp3ib2HPY89HzlGKd4m9hz2PPR85RineJvYc9jz0fOUYp3ib2HPY89HzlGKd4k9hz2PPS85TineJPYc9jz0vOU4pziT2HPa89LzlOKc4k9hz2vPS85TinOJPYc9rz0vOU4p3iT2HPY89LzlOKd4k9hz0PPR85RineKPYe9Dz0nOU4pziT2HPa89TznOKM4k9hz2vPU85zijOJPYc9rz1POc4oziT2HPa89TznOKc4k9hz0PPR85RineJPYc9rz0vOc4oziD2HPa89bznOKM4g9hz2vPW85zig=">
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F1F5F0;min-height:100vh;min-height:100dvh;max-width:480px;margin:0 auto;padding-bottom:68px;overflow-x:hidden}
+.hdr{background:linear-gradient(135deg,#065F46,#0D9488);padding:max(env(safe-area-inset-top),16px) 16px 12px;color:#fff;display:flex;justify-content:space-between;align-items:center}
+.hdr h1{font-size:19px;font-weight:800;letter-spacing:-.5px}
+.hdr small{font-size:11px;opacity:.7;display:block;margin-top:1px}
+.btn-add{background:#fff;color:#065F46;border:none;border-radius:11px;padding:7px 13px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+.ct{padding:10px 14px 14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.st{border-radius:14px;padding:11px 12px;text-align:center}
+.st .si{font-size:20px}.st .sv{font-size:20px;font-weight:800}.st .sl{font-size:10px;color:#64748B;font-weight:500}
+.ab{border-radius:14px;padding:11px;margin-bottom:8px;font-size:12px}
+.ab .at{font-weight:700;font-size:12px;margin-bottom:4px}
+.ab .ar{display:flex;justify-content:space-between;padding:2px 0}
+.bd{display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;font-weight:600;white-space:nowrap;line-height:16px;color:#fff}
+.bg{background:#9CA3AF;color:#374151}
+.cd{background:#fff;border-radius:14px;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;gap:10px;align-items:center;margin-bottom:7px;border-left:4px solid #ccc}
+.cd.ot{opacity:.45}
+.cd .ci{font-size:22px;width:28px;text-align:center;flex-shrink:0}
+.cd .cn{font-weight:700;font-size:13px;color:#1E293B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cd .cb{display:flex;gap:4px;flex-wrap:wrap;margin-top:2px}
+.cd .cno{font-size:10px;color:#94A3B8;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cd .ca{display:flex;flex-direction:column;gap:3px;align-items:center;flex-shrink:0}
+.qr{display:flex;gap:2px;align-items:center}
+.qb{width:24px;height:24px;border-radius:7px;border:1.5px solid #CBD5E1;background:#F8FAFC;cursor:pointer;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;color:#334155}
+.qv{width:20px;text-align:center;font-weight:700;font-size:13px;color:#1E293B}
+.ib{background:none;border:none;cursor:pointer;font-size:12px;padding:1px}
+.sr{width:100%;padding:8px 11px;border-radius:11px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit;background:#fff}
+.ps{display:flex;gap:5px;margin-bottom:7px;overflow-x:auto;align-items:center;-webkit-overflow-scrolling:touch}
+.pl{padding:4px 10px;border-radius:99px;border:1.5px solid #D1D5DB;background:#fff;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;color:#64748B}
+.pl.on{background:#065F46;color:#fff;border-color:#065F46}
+.sg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.sb{background:#fff;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 8px;cursor:pointer;text-align:center;font-family:inherit}
+.sb .si{font-size:22px;margin-bottom:2px}.sb .sl{font-weight:600;font-size:11px;color:#1E293B}.sb .sa{font-size:10px;font-weight:500;margin-top:1px}
+.bb{background:none;border:none;cursor:pointer;font-size:13px;color:#0D9488;font-weight:600;padding:0;margin-bottom:10px;font-family:inherit}
+.cc{background:#fff;border-radius:14px;padding:14px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.cc.h4{border-left:4px solid #DC2626}.cc.rg{border-left:4px solid #0D9488}
+.fg{margin-bottom:10px}
+.fg label{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:3px}
+.fg input,.fg textarea,.fg select{width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit;background:#fff}
+.fg textarea{resize:vertical}
+.cg{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.cb2{padding:6px 8px;border-radius:9px;border:2px solid #E5E7EB;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:#64748B;text-align:left;background:#fff}
+.cb2.on{border-color:var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 8%,white)}
+.ur{display:flex;gap:4px;flex-wrap:wrap}
+.ch{padding:5px 11px;border-radius:9px;font-size:12px;border:2px solid #E5E7EB;background:#fff;color:#64748B;cursor:pointer;font-family:inherit;font-weight:600}
+.ch.on{border-color:#0D9488;background:#ECFDF5;color:#065F46}
+.sv2{width:100%;padding:11px;border-radius:13px;color:#fff;border:none;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
+.sv2:disabled{background:#D1D5DB;cursor:default}
+.sv2:not(:disabled){background:linear-gradient(135deg,#065F46,#0D9488);box-shadow:0 4px 12px rgba(13,148,136,.3)}
+.bn{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #E5E7EB;display:flex;padding:4px 0 max(env(safe-area-inset-bottom),6px);box-shadow:0 -2px 12px rgba(0,0,0,.06);z-index:50}
+.bn button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:4px 0;font-family:inherit;opacity:.4;transition:opacity .15s}
+.bn button.on{opacity:1}
+.bn .ni{font-size:17px}.bn .nl{font-size:9px;font-weight:700;color:#334155}
+.mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
+.mdl{background:#fff;border-radius:18px;padding:20px;max-width:280px;width:100%;text-align:center}
+.mb{flex:1;padding:9px;border-radius:11px;font-weight:600;cursor:pointer;font-family:inherit;font-size:12px}
+.em{text-align:center;padding:24px;color:#94A3B8}
+.qs{background:#fff;border-radius:14px;padding:12px;margin-top:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
+.loading{height:100vh;height:100dvh;display:flex;align-items:center;justify-content:center;background:#F1F5F0;flex-direction:column;gap:8px}
+.loading .spinner{width:32px;height:32px;border:3px solid #E5E7EB;border-top-color:#0D9488;border-radius:50%;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+</style>
+</head>
+<body>
+<div id="root"><div class="loading"><div style="font-size:48px">💊</div><div class="spinner"></div><div style="color:#64748B;font-weight:500;font-size:13px">Connecting...</div></div></div>
+
+<script>
+// ═══ FIREBASE INIT ═══
+firebase.initializeApp({
+  apiKey:"AIzaSyB0JCcoreS7kogGTYOM8NwhrPHcuiLMRlU",
+  authDomain:"pharmacy-2711.firebaseapp.com",
+  databaseURL:"https://pharmacy-2711-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:"pharmacy-2711",
+  storageBucket:"pharmacy-2711.firebasestorage.app",
+  messagingSenderId:"594051637720",
+  appId:"1:594051637720:web:f8db8143bf8cb05b3c52ad",
+  measurementId:"G-T0M3GFBTH3"
+});
+const db=firebase.database();
+const medsRef=db.ref("meds");
+const contactsRef=db.ref("contacts");
+
+// ═══ DATA ═══
+const CATS={pain_fever:{l:"Pain & Fever",i:"💊",c:"#DC2626"},cold_flu:{l:"Cold & Flu",i:"🤧",c:"#2563EB"},digestive:{l:"Digestive",i:"🫄",c:"#16A34A"},allergies:{l:"Allergies",i:"🌸",c:"#D97706"},skin_wounds:{l:"Skin & Wounds",i:"🩹",c:"#EA580C"},antibiotics:{l:"Antibiotics",i:"💉",c:"#7C3AED"},vitamins:{l:"Vitamins & Suppl.",i:"✨",c:"#0D9488"},eye_ear_nose:{l:"Eye / Ear / Nose",i:"👁️",c:"#475569"},vet_milo:{l:"Vet — Milo 🐱",i:"🐾",c:"#A855F7"},other:{l:"Other",i:"📦",c:"#6B7280"}};
+const LOCS=["Small Cabinet","Box 1","Box 2","Fridge","Bathroom"];
+const UNITS=["box","tube","bottle","pack","piece"];
+const SYMS=[
+  {id:"headache",l:"Headache",i:"🤕",cats:["pain_fever"]},{id:"fever",l:"Fever",i:"🌡️",cats:["pain_fever","cold_flu"]},{id:"cold",l:"Cold / Runny nose",i:"🤧",cats:["cold_flu","allergies"]},{id:"sore_throat",l:"Sore Throat",i:"😮",cats:["cold_flu","pain_fever"]},{id:"cough",l:"Cough",i:"😷",cats:["cold_flu"]},{id:"stomach",l:"Stomach Ache",i:"🤢",cats:["digestive"]},{id:"nausea",l:"Nausea",i:"🤮",cats:["digestive"]},{id:"diarrhea",l:"Diarrhea",i:"💧",cats:["digestive"]},{id:"heartburn",l:"Heartburn",i:"🔥",cats:["digestive"]},{id:"allergy",l:"Allergies",i:"🌼",cats:["allergies"]},{id:"burn",l:"Burn",i:"🔥",cats:["skin_wounds"]},{id:"cut",l:"Cut / Wound",i:"🩸",cats:["skin_wounds"]},{id:"muscle",l:"Muscle Pain",i:"💪",cats:["pain_fever"]},{id:"back",l:"Back Pain",i:"🦴",cats:["pain_fever"]},{id:"bite",l:"Insect Bite",i:"🦟",cats:["skin_wounds","allergies"]},{id:"rash",l:"Skin Rash",i:"😖",cats:["skin_wounds","allergies"]},{id:"eye",l:"Eye Irritation",i:"👁️",cats:["eye_ear_nose"]},{id:"ear",l:"Earache",i:"👂",cats:["eye_ear_nose","pain_fever"]},{id:"period",l:"Menstrual Pain",i:"♀️",cats:["pain_fever"]},{id:"sleep",l:"Sleep Issues",i:"😴",cats:["other"]}
+];
+const PRE=[
+  {n:"Tachipirina 1000mg",cat:"pain_fever",u:"box",no:"Paracetamol. Max 3g/day. 1 tab every 6-8h."},{n:"Efferalgan 1000mg",cat:"pain_fever",u:"box",no:"Paracetamol effervescent. Dissolve in water."},{n:"Moment 200mg",cat:"pain_fever",u:"box",no:"Ibuprofen. Take with food."},{n:"Nurofen 400mg",cat:"pain_fever",u:"box",no:"Ibuprofen. Max 1200mg/day."},{n:"Aspirina 500mg",cat:"pain_fever",u:"box",no:"Aspirin. Not on empty stomach."},{n:"Voltaren Emulgel",cat:"pain_fever",u:"tube",no:"Diclofenac gel. Apply 3-4x/day."},{n:"Spasfon",cat:"digestive",u:"box",no:"Stomach cramps & spasms. Max 6/day."},{n:"Gaviscon",cat:"digestive",u:"bottle",no:"Heartburn & reflux. After meals."},{n:"Imodium",cat:"digestive",u:"box",no:"Loperamide. For diarrhea."},{n:"Biochetasi",cat:"digestive",u:"box",no:"Effervescent. Digestive aid."},{n:"Enterogermina",cat:"digestive",u:"box",no:"Probiotics. Intestinal flora."},{n:"Rennie",cat:"digestive",u:"box",no:"Chewable antacid."},{n:"Actifed",cat:"cold_flu",u:"box",no:"Decongestant for cold/flu."},{n:"Rinazina Spray",cat:"cold_flu",u:"bottle",no:"Nasal decongestant. Max 3 days."},{n:"Physiomer",cat:"cold_flu",u:"bottle",no:"Seawater nasal spray."},{n:"Fluimucil 600mg",cat:"cold_flu",u:"box",no:"Mucolytic for cough."},{n:"Strepsils",cat:"cold_flu",u:"box",no:"Throat lozenges."},{n:"Zirtec 10mg",cat:"allergies",u:"box",no:"Cetirizine. 1/day antihistamine."},{n:"Betadine 10%",cat:"skin_wounds",u:"bottle",no:"Wound disinfectant."},{n:"Acqua Ossigenata",cat:"skin_wounds",u:"bottle",no:"Hydrogen peroxide."},{n:"Connettivina Crema",cat:"skin_wounds",u:"tube",no:"Burns, wounds, skin repair."},{n:"Gentalyn Beta",cat:"skin_wounds",u:"tube",no:"Antibiotic+cortisone. Rx."},{n:"Cerotti (Band-Aids)",cat:"skin_wounds",u:"box",no:"Assorted plasters."},{n:"Garze Sterili",cat:"skin_wounds",u:"pack",no:"Sterile gauze."},{n:"Foille Scottature",cat:"skin_wounds",u:"tube",no:"For minor burns."},{n:"Augmentin",cat:"antibiotics",u:"box",no:"PRESCRIPTION. Full course."},{n:"Vitamina C 1000mg",cat:"vitamins",u:"box",no:"Vitamin C effervescent."},{n:"Vitamina D",cat:"vitamins",u:"bottle",no:"Important in winter."},{n:"Magnesio Supremo",cat:"vitamins",u:"bottle",no:"Fatigue, cramps."},{n:"Collirio",cat:"eye_ear_nose",u:"bottle",no:"Eye drops."},{n:"Melatonina",cat:"other",u:"box",no:"Sleep aid. 1-3mg."},{n:"Thermometer",cat:"other",u:"piece",no:"Digital. Check battery."}
+];
+const DEF_CONTACTS={
+  c1:{id:"c1",type:"pharmacy",label:"🏥 Closest Pharmacy",name:"",address:"",phone:"",notes:"",h24:false},
+  c2:{id:"c2",type:"pharmacy",label:"🏥 24/7 Pharmacy",name:"",address:"",phone:"",notes:"Open 24 hours",h24:true},
+  c3:{id:"c3",type:"vet",label:"🐾 Milo's Vet",name:"",address:"",phone:"",notes:""},
+  c4:{id:"c4",type:"vet",label:"🚨 Milo 24/7 Emergency Vet",name:"",address:"",phone:"",notes:"Emergency",h24:true}
+};
+
+// ═══ STATE ═══
+let meds={},contacts={},tab="home",search="",filterCat="all",inStockOnly=false,selSym=null;
+let form=null,editId=null,delId=null,editContact=null,ready=false;
+
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
+function medsArr(){return Object.values(meds)}
+function contactsArr(){return Object.values(contacts)}
+
+function expInfo(d){
+  if(!d)return{s:"unknown",l:"No date",c:"#9CA3AF"};
+  const now=new Date(),e=new Date(d+"-01");e.setMonth(e.getMonth()+1);e.setDate(0);
+  const diff=(e-now)/864e5;
+  if(diff<0)return{s:"expired",l:"Expired",c:"#DC2626"};
+  if(diff<90)return{s:"soon",l:Math.ceil(diff)+"d left",c:"#D97706"};
+  const[y,m]=d.split("-");const mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+  return{s:"ok",l:mn[+m-1]+" "+y,c:"#16A34A"};
+}
+function esc(s){return String(s||"").replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+
+// ═══ FIREBASE LISTENERS ═══
+medsRef.on("value",snap=>{
+  const v=snap.val();
+  if(v){meds=v}else{
+    // First ever load: seed with pre-populated meds
+    const seed={};
+    PRE.forEach(m=>{const id=uid();seed[id]={id,name:m.n,cat:m.cat,exp:"",qty:0,unit:m.u,loc:"",notes:m.no}});
+    medsRef.set(seed);
+    meds=seed;
+  }
+  if(!ready){ready=true}
+  render();
+});
+contactsRef.on("value",snap=>{
+  const v=snap.val();
+  if(v){contacts=v}else{contactsRef.set(DEF_CONTACTS);contacts=JSON.parse(JSON.stringify(DEF_CONTACTS))}
+  render();
+});
+
+// ═══ RENDER ═══
+function render(){
+  if(!ready){return}
+  const ma=medsArr();
+  const inStock=ma.filter(m=>m.qty>0);
+  const expired=ma.filter(m=>m.qty>0&&expInfo(m.exp).s==="expired");
+  const soon=ma.filter(m=>m.qty>0&&expInfo(m.exp).s==="soon");
+  const oos=ma.filter(m=>m.qty===0);
+  let h=`<div class="hdr"><div><h1>✚ Home Pharmacy</h1><small><span class="sync-dot" style="background:#22C55E"></span>${inStock.length} in stock · ${ma.length} total</small></div><button class="btn-add" onclick="openAdd()">+ Add</button></div><div class="ct">`;
+
+  document.querySelectorAll(".bn button")?.forEach(b=>{b.className=(b.id==="nav-"+tab||(tab==="form"&&b.id==="nav-cabinet"))?"on":""});
+
+  // HOME
+  if(tab==="home"){
+    h+=`<div class="g2" style="margin-bottom:12px">
+      <div class="st" style="background:#ECFDF5"><div class="si">💊</div><div class="sv" style="color:#065F46">${inStock.length}</div><div class="sl">In Stock</div></div>
+      <div class="st" style="background:${expired.length?"#FEF2F2":"#F9FAFB"}"><div class="si">⚠️</div><div class="sv" style="color:${expired.length?"#DC2626":"#9CA3AF"}">${expired.length}</div><div class="sl">Expired</div></div>
+      <div class="st" style="background:${soon.length?"#FFFBEB":"#F9FAFB"}"><div class="si">⏰</div><div class="sv" style="color:${soon.length?"#D97706":"#9CA3AF"}">${soon.length}</div><div class="sl">Expiring Soon</div></div>
+      <div class="st" style="background:#F9FAFB"><div class="si">📭</div><div class="sv" style="color:#9CA3AF">${oos.length}</div><div class="sl">Out of Stock</div></div></div>`;
+    if(expired.length)h+=`<div class="ab" style="background:#FEF2F2;border:1px solid #FECACA"><div class="at" style="color:#DC2626">🚨 Expired</div>${expired.map(m=>`<div class="ar"><span style="color:#7F1D1D">${esc(m.name)}</span><span class="bd" style="background:#DC2626">${expInfo(m.exp).l}</span></div>`).join("")}</div>`;
+    if(soon.length)h+=`<div class="ab" style="background:#FFFBEB;border:1px solid #FDE68A"><div class="at" style="color:#D97706">⏰ Expiring Soon</div>${soon.map(m=>`<div class="ar"><span style="color:#78350F">${esc(m.name)}</span><span class="bd" style="background:#D97706">${expInfo(m.exp).l}</span></div>`).join("")}</div>`;
+    h+=`<div class="qs"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:4px">🚀 Quick Start</div><div style="font-size:12px;color:#64748B;line-height:1.5">Common FR/IT medicines pre-loaded at <b>0 qty</b>. Go to <b>Cabinet</b>, bump up quantities, add expiry dates & locations. Delete what you don't need.</div></div>`;
+  }
+
+  // CABINET
+  else if(tab==="cabinet"){
+    let list=ma.slice();
+    if(inStockOnly)list=list.filter(m=>m.qty>0);
+    if(filterCat!=="all")list=list.filter(m=>m.cat===filterCat);
+    if(search)list=list.filter(m=>m.name.toLowerCase().includes(search.toLowerCase())||m.loc?.toLowerCase().includes(search.toLowerCase())||m.notes?.toLowerCase().includes(search.toLowerCase()));
+    list.sort((a,b)=>{if(!a.qty&&b.qty)return 1;if(a.qty&&!b.qty)return-1;return a.name.localeCompare(b.name)});
+    h+=`<input class="sr" type="text" placeholder="Search..." value="${esc(search)}" oninput="search=this.value;render()" style="margin-bottom:7px">`;
+    h+=`<div class="ps"><button class="pl ${inStockOnly?"on":""}" onclick="inStockOnly=!inStockOnly;render()">${inStockOnly?"✅ In stock":"All"}</button>`;
+    Object.entries(CATS).forEach(([k,v])=>{const c=ma.filter(m=>m.cat===k&&(!inStockOnly||m.qty>0)).length;if(c)h+=`<button class="pl ${filterCat===k?"on":""}" style="${filterCat===k?"background:"+v.c+";border-color:"+v.c:""}" onclick="filterCat=filterCat==='${k}'?'all':'${k}';render()">${v.i}${c}</button>`});
+    h+=`</div>`;
+    if(!list.length)h+=`<div class="em"><div style="font-size:32px">🔍</div><div style="font-size:12px;margin-top:4px">No medicines found</div></div>`;
+    else{h+=`<div style="font-size:10px;color:#94A3B8;margin-bottom:5px">${list.length} result${list.length>1?"s":""}</div>`;list.forEach(m=>h+=medCard(m))}
+  }
+
+  // GUIDE
+  else if(tab==="guide"){
+    if(!selSym){
+      h+=`<div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:2px">What's wrong?</div><div style="font-size:12px;color:#64748B;margin-bottom:10px">Tap a symptom → see what's in stock</div><div class="sg">`;
+      SYMS.forEach(s=>{const av=ma.filter(m=>s.cats.includes(m.cat)&&m.qty>0).length;h+=`<button class="sb" onclick="selSym='${s.id}';render()"><div class="si">${s.i}</div><div class="sl">${s.l}</div><div class="sa" style="color:${av?"#16A34A":"#DC2626"}">${av?av+" available":"Nothing"}</div></button>`});
+      h+=`</div>`;
+    } else {
+      const s=SYMS.find(x=>x.id===selSym),sm=ma.filter(m=>s.cats.includes(m.cat)&&m.qty>0);
+      h+=`<button class="bb" onclick="selSym=null;render()">← Back</button>`;
+      h+=`<div style="background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)"><div style="font-size:28px">${s.i}</div><h3 style="margin:3px 0 0;font-size:16px;font-weight:800;color:#1E293B">${s.l}</h3><div style="font-size:11px;color:#64748B;margin-top:2px">Looking in: ${s.cats.map(c=>CATS[c].l).join(", ")}</div></div>`;
+      if(sm.length){h+=`<div style="font-weight:700;font-size:12px;color:#16A34A;margin-bottom:6px">✅ ${sm.length} available:</div>`;sm.forEach(m=>h+=medCard(m))}
+      else h+=`<div style="background:#FEF2F2;border-radius:14px;padding:16px;text-align:center;border:1px solid #FECACA"><div style="font-size:28px;margin-bottom:4px">😕</div><div style="font-weight:700;color:#DC2626;margin-bottom:3px">Nothing in stock</div><div style="font-size:12px;color:#7F1D1D">Time to visit the pharmacy!</div></div>`;
+    }
+  }
+
+  // CONTACTS
+  else if(tab==="contacts"){
+    const ca=contactsArr();
+    h+=`<div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:2px">Important Contacts</div><div style="font-size:12px;color:#64748B;margin-bottom:10px">Pharmacies, vets & emergency numbers</div>`;
+    h+=`<div style="font-weight:700;font-size:12px;color:#065F46;margin-bottom:6px">🏥 Pharmacies</div>`;
+    ca.filter(c=>c.type==="pharmacy").forEach(c=>h+=contactCard(c));
+    h+=`<div style="font-weight:700;font-size:12px;color:#A855F7;margin-bottom:6px;margin-top:14px">🐾 Milo — Vet</div>`;
+    ca.filter(c=>c.type==="vet").forEach(c=>h+=contactCard(c));
+    h+=`<div style="background:#FEF2F2;border-radius:14px;padding:12px;margin-top:14px;border:1px solid #FECACA;text-align:center"><div style="font-weight:700;font-size:13px;color:#DC2626;margin-bottom:2px">🚨 Emergency</div><div><a href="tel:118" style="color:#DC2626;font-weight:800;font-size:18px;text-decoration:none">118</a><span style="margin:0 8px;opacity:.3">|</span><a href="tel:112" style="color:#DC2626;font-weight:800;font-size:18px;text-decoration:none">112</a></div><div style="font-size:10px;color:#9CA3AF;margin-top:3px">Medical · General Emergency</div></div>`;
+  }
+
+  // FORM
+  else if(tab==="form"&&form){
+    h+=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2 style="font-size:16px;font-weight:800;color:#1E293B">${editId?"Edit Medicine":"Add Medicine"}</h2><button onclick="form=null;go('cabinet')" style="background:none;border:none;font-size:12px;color:#64748B;cursor:pointer;font-weight:600;font-family:inherit">Cancel</button></div>`;
+    h+=`<div class="fg"><label>Name *</label><input id="f-name" value="${esc(form.name)}" oninput="form.name=this.value" placeholder="e.g. Efferalgan, Doliprane..."></div>`;
+    h+=`<div class="fg"><label>Category</label><div class="cg">`;
+    Object.entries(CATS).forEach(([k,v])=>{h+=`<button class="cb2 ${form.cat===k?"on":""}" style="--c:${v.c}" onclick="form.cat='${k}';render()">${v.i} ${v.l}</button>`});
+    h+=`</div></div>`;
+    h+=`<div class="g2" style="gap:10px"><div class="fg"><label>Expiry</label><input type="month" value="${form.exp||""}" onchange="form.exp=this.value"></div>`;
+    h+=`<div class="fg"><label>Quantity</label><div style="display:flex;align-items:center;gap:4px"><button class="qb" style="width:32px;height:32px" onclick="form.qty=Math.max(0,form.qty-1);render()">−</button><input type="number" value="${form.qty}" min="0" onchange="form.qty=Math.max(0,+this.value||0)" style="width:44px;text-align:center;padding:5px 3px;border-radius:9px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit"><button class="qb" style="width:32px;height:32px" onclick="form.qty++;render()">+</button></div></div></div>`;
+    h+=`<div class="fg"><label>Unit</label><div class="ur">${UNITS.map(u=>`<button class="ch ${form.unit===u?"on":""}" onclick="form.unit='${u}';render()">${u}</button>`).join("")}</div></div>`;
+    h+=`<div class="fg"><label>📍 Location</label><div class="ur">${LOCS.map(l=>`<button class="ch ${form.loc===l?"on":""}" onclick="form.loc='${esc(l)}';render()">${l}</button>`).join("")}</div><input value="${esc(form.loc)}" oninput="form.loc=this.value" placeholder="Or type custom..." style="margin-top:4px;font-size:12px;width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid #D1D5DB;font-family:inherit"></div>`;
+    h+=`<div class="fg"><label>Notes</label><textarea oninput="form.notes=this.value" placeholder="Dosage, instructions..." rows="2">${esc(form.notes)}</textarea></div>`;
+    h+=`<button class="sv2" onclick="handleSave()" ${form.name.trim()?"":"disabled"}>${editId?"💾 Save":"✅ Add Medicine"}</button>`;
+  }
+
+  h+=`</div>`;
+
+  // Nav
+  h+=`<div class="bn">${[{id:"home",i:"🏠",l:"Home"},{id:"cabinet",i:"🗄️",l:"Cabinet"},{id:"guide",i:"🩺",l:"Health"},{id:"contacts",i:"📍",l:"Contacts"}].map(t=>`<button id="nav-${t.id}" class="${(tab===t.id||(t.id==="cabinet"&&tab==="form"))?"on":""}" onclick="go('${t.id}')"><span class="ni">${t.i}</span><span class="nl">${t.l}</span></button>`).join("")}</div>`;
+
+  // Delete modal
+  if(delId){
+    const m=meds[delId];
+    h+=`<div class="mbg" onclick="delId=null;render()"><div class="mdl" onclick="event.stopPropagation()"><div style="font-size:28px;margin-bottom:4px">🗑️</div><div style="font-weight:700;font-size:14px;margin-bottom:2px">Delete?</div><div style="font-size:12px;color:#64748B;margin-bottom:12px">${m?esc(m.name):""}</div><div style="display:flex;gap:8px"><button class="mb" style="border:1.5px solid #D1D5DB;background:#fff" onclick="delId=null;render()">Cancel</button><button class="mb" style="border:none;background:#DC2626;color:#fff" onclick="confirmDel()">Delete</button></div></div></div>`;
+  }
+
+  document.getElementById("root").innerHTML=h;
+}
+
+function medCard(m){
+  const cat=CATS[m.cat]||CATS.other,e=expInfo(m.exp);
+  return`<div class="cd ${m.qty===0?"ot":""}" style="border-left-color:${cat.c}"><div class="ci">${cat.i}</div><div style="flex:1;min-width:0"><div class="cn">${esc(m.name)}</div><div class="cb">${`<span class="bd" style="background:${e.c}">${e.l}</span>`}${m.loc?`<span class="bd bg">📍 ${esc(m.loc)}</span>`:""}${m.qty===0?`<span class="bd" style="background:#DC2626">OUT</span>`:""}</div>${m.notes?`<div class="cno">${esc(m.notes)}</div>`:""}</div><div class="ca"><div class="qr"><button class="qb" onclick="chgQty('${m.id}',-1)">−</button><span class="qv">${m.qty}</span><button class="qb" onclick="chgQty('${m.id}',1)">+</button></div><div style="display:flex;gap:6px"><button class="ib" onclick="openEdit('${m.id}')">✏️</button><button class="ib" onclick="delId='${m.id}';render()">🗑️</button></div></div></div>`;
+}
+
+function contactCard(c){
+  if(editContact===c.id){
+    return`<div class="cc" style="border:2px solid #0D9488"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:8px">${c.label}</div>${["name","address","phone","notes"].map(f=>`<div class="fg"><label style="text-transform:capitalize">${f}</label><input id="ce-${f}" value="${esc(c[f])}" placeholder="${f==="name"?"e.g. Farmacia Centrale":f==="phone"?"+39 06 ...":f==="address"?"Via Roma 1, Rome":"Notes..."}"></div>`).join("")}<div style="display:flex;gap:6px"><button style="flex:1;padding:9px;border-radius:10px;background:#065F46;color:#fff;border:none;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px" onclick="saveContact('${c.id}')">Save</button><button style="padding:9px;border-radius:10px;background:#F1F5F9;border:none;font-weight:600;cursor:pointer;font-family:inherit;font-size:12px;color:#64748B" onclick="editContact=null;render()">Cancel</button></div></div>`;
+  }
+  const empty=!c.name&&!c.address&&!c.phone;
+  return`<div class="cc ${c.h24?"h4":"rg"}"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:2px">${c.label}</div>${empty?`<div style="font-size:12px;color:#94A3B8;font-style:italic">Tap ✏️ to add details</div>`:`${c.name?`<div style="font-size:13px;font-weight:600;color:#334155">${esc(c.name)}</div>`:""}${c.address?`<div style="font-size:12px;color:#64748B;margin-top:2px">📍 ${esc(c.address)}</div>`:""}${c.phone?`<a href="tel:${esc(c.phone)}" style="font-size:14px;color:#0D9488;font-weight:700;margin-top:4px;display:inline-block;text-decoration:none">📞 ${esc(c.phone)}</a>`:""}${c.notes?`<div style="font-size:11px;color:#94A3B8;margin-top:2px">${esc(c.notes)}</div>`:""}`}</div><button class="ib" onclick="editContact='${c.id}';render()">✏️</button></div></div>`;
+}
+
+// ═══ ACTIONS ═══
+function go(t){tab=t;selSym=null;render()}
+function chgQty(id,d){const m=meds[id];if(m){m.qty=Math.max(0,(m.qty||0)+d);medsRef.child(id).update({qty:m.qty})}}
+function openAdd(){form={name:"",cat:"pain_fever",exp:"",qty:1,unit:"box",loc:"",notes:""};editId=null;tab="form";render()}
+function openEdit(id){const m=meds[id];if(m){form={...m};editId=id;tab="form";render()}}
+function handleSave(){
+  if(!form.name.trim())return;
+  if(editId){medsRef.child(editId).set({...form,id:editId})}
+  else{const id=uid();medsRef.child(id).set({...form,id,qty:form.qty||0})}
+  form=null;editId=null;tab="cabinet";
+}
+function confirmDel(){medsRef.child(delId).remove();delId=null}
+function saveContact(id){
+  const upd={};
+  ["name","address","phone","notes"].forEach(f=>{const el=document.getElementById("ce-"+f);if(el)upd[f]=el.value});
+  contactsRef.child(id).update(upd);
+  editContact=null;
+}
+</script>
+</body>
+</html>
