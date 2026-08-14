@@ -2,74 +2,288 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Pharmacy">
+<meta name="apple-mobile-web-app-title" content="Farmacia">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="theme-color" content="#065F46">
-<title>Home Pharmacy</title>
+<meta name="theme-color" content="#0B2E22">
+<title>Farmacia</title>
 <link rel="apple-touch-icon" href="icon.png">
 <link rel="icon" href="icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter+Tight:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <style>
+:root{
+  --paper:#EBEEE8; --card:#FCFCFA; --card-2:#F4F6F1;
+  --ink:#131E19; --ink-2:#5B6862; --ink-3:#909C95;
+  --line:#DBDFD7; --line-2:#E8EBE4;
+  --green:#00934B; --green-deep:#0B2E22; --green-soft:#E2F0E6;
+  --btn:#0B2E22; --btn-ink:#EAF3EC;
+  --amber:#B36B00; --amber-soft:#FBF0DC;
+  --red:#BE2F26; --red-soft:#FAE7E4;
+  --violet:#6D4AA8; --violet-soft:#EDE7F7;
+  --shadow-lg:0 20px 50px -12px rgba(11,46,34,.4);
+  --r:16px;
+}
+@media (prefers-color-scheme:dark){
+  :root{
+    --paper:#0A1310; --card:#141F1A; --card-2:#1A2721;
+    --ink:#E7EDE9; --ink-2:#94A29B; --ink-3:#6B7C74;
+    --line:#233129; --line-2:#1C2922;
+    --green:#3ED27F; --green-deep:#071310; --green-soft:#14291E;
+    --btn:#2A6247; --btn-ink:#EFF7F1;
+    --amber:#E2A33C; --amber-soft:#2A2216;
+    --red:#F0736A; --red-soft:#2C1917;
+    --violet:#A88BE0; --violet-soft:#221C31;
+    --shadow-lg:0 20px 50px -12px rgba(0,0,0,.7);
+  }
+}
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:#F1F5F0;min-height:100vh;min-height:100dvh;max-width:480px;margin:0 auto;overflow-x:hidden}
-#app{padding-bottom:68px}
-.hdr{background:linear-gradient(135deg,#065F46,#0D9488);padding:max(env(safe-area-inset-top),16px) 16px 12px;color:#fff;display:flex;justify-content:space-between;align-items:center}
-.hdr h1{font-size:19px;font-weight:800;letter-spacing:-.5px}
-.hdr small{font-size:11px;opacity:.7;display:block;margin-top:1px}
-.btn-add{background:#fff;color:#065F46;border:none;border-radius:11px;padding:7px 13px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
-.ct{padding:10px 14px 14px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.st{border-radius:14px;padding:11px 12px;text-align:center}
-.ab{border-radius:14px;padding:11px;margin-bottom:8px;font-size:12px}
-.ab .at{font-weight:700;font-size:12px;margin-bottom:4px}
-.ab .ar{display:flex;justify-content:space-between;padding:2px 0}
-.bd{display:inline-block;padding:1px 6px;border-radius:99px;font-size:10px;font-weight:600;white-space:nowrap;line-height:16px;color:#fff}
-.bg{background:#9CA3AF;color:#374151}
-.cd{background:#fff;border-radius:14px;padding:11px 13px;box-shadow:0 1px 4px rgba(0,0,0,.06);display:flex;gap:10px;align-items:center;margin-bottom:7px;border-left:4px solid #ccc}
-.cd.ot{opacity:.45}
-.qb{width:24px;height:24px;border-radius:7px;border:1.5px solid #CBD5E1;background:#F8FAFC;cursor:pointer;font-weight:700;font-size:14px;display:flex;align-items:center;justify-content:center;color:#334155}
-.qb2{width:32px;height:32px;border-radius:7px;border:1.5px solid #CBD5E1;background:#F8FAFC;cursor:pointer;font-weight:700;font-size:16px;display:flex;align-items:center;justify-content:center;color:#334155}
-.ib{background:none;border:none;cursor:pointer;font-size:12px;padding:2px}
-.sr{width:100%;padding:8px 11px;border-radius:11px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit;background:#fff}
-.ps{display:flex;gap:5px;margin-bottom:7px;overflow-x:auto;align-items:center;-webkit-overflow-scrolling:touch}
-.pl{padding:4px 10px;border-radius:99px;border:1.5px solid #D1D5DB;background:#fff;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap;font-family:inherit;color:#64748B}
-.pl.on{background:#065F46;color:#fff;border-color:#065F46}
-.sg{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.sb{background:#fff;border:1.5px solid #E5E7EB;border-radius:13px;padding:11px 8px;cursor:pointer;text-align:center;font-family:inherit}
-.bb{background:none;border:none;cursor:pointer;font-size:13px;color:#0D9488;font-weight:600;padding:0;margin-bottom:10px;font-family:inherit}
-.cc{background:#fff;border-radius:14px;padding:14px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.fg{margin-bottom:10px}
-.fg label{display:block;font-size:11px;font-weight:700;color:#374151;margin-bottom:3px}
-.fg input,.fg textarea{width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit;background:#fff;box-sizing:border-box}
-.fg textarea{resize:vertical}
-.cg{display:grid;grid-template-columns:1fr 1fr;gap:4px}
-.catbtn{padding:6px 8px;border-radius:9px;border:2px solid #E5E7EB;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:#64748B;text-align:left;background:#fff}
-.ur{display:flex;gap:4px;flex-wrap:wrap}
-.chip{padding:5px 11px;border-radius:9px;font-size:12px;border:2px solid #E5E7EB;background:#fff;color:#64748B;cursor:pointer;font-family:inherit;font-weight:600}
-.chip.on{border-color:#0D9488;background:#ECFDF5;color:#065F46}
-.svbtn{width:100%;padding:11px;border-radius:13px;color:#fff;border:none;font-weight:700;font-size:14px;cursor:pointer;font-family:inherit}
-.bn{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;border-top:1px solid #E5E7EB;display:flex;padding:4px 0 max(env(safe-area-inset-bottom),6px);box-shadow:0 -2px 12px rgba(0,0,0,.06);z-index:50}
-.bn button{flex:1;background:none;border:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;padding:4px 0;font-family:inherit;opacity:.4;transition:opacity .15s}
-.bn button.on{opacity:1}
-.bn .ni{font-size:17px}.bn .nl{font-size:9px;font-weight:700;color:#334155}
-.mbg{position:fixed;inset:0;background:rgba(0,0,0,.5);display:flex;align-items:center;justify-content:center;z-index:100;padding:20px}
-.mdl{background:#fff;border-radius:18px;padding:20px;max-width:280px;width:100%;text-align:center}
-.qs{background:#fff;border-radius:14px;padding:12px;margin-top:6px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
-.sync-dot{width:8px;height:8px;border-radius:50%;display:inline-block;margin-right:4px}
-.loading{height:100vh;height:100dvh;display:flex;align-items:center;justify-content:center;background:#F1F5F0;flex-direction:column;gap:8px}
-.spinner{width:32px;height:32px;border:3px solid #E5E7EB;border-top-color:#0D9488;border-radius:50%;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+html{-webkit-text-size-adjust:100%}
+body{
+  font-family:'Inter Tight',system-ui,-apple-system,sans-serif;
+  background:var(--paper); color:var(--ink);
+  min-height:100vh; min-height:100dvh;
+  max-width:520px; margin:0 auto;
+  overflow-x:hidden; overscroll-behavior-y:none;
+  -webkit-font-smoothing:antialiased;
+}
+button{font-family:inherit;color:inherit;border:none;background:none;cursor:pointer}
+input,textarea{font-family:inherit;color:inherit}
+a{color:inherit}
+.disp{font-family:'Bricolage Grotesque','Inter Tight',sans-serif;font-weight:800;letter-spacing:-.025em}
+:focus-visible{outline:2px solid var(--green);outline-offset:2px;border-radius:4px}
+.eyebrow{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
+
+/* header */
+.hdr{
+  position:sticky;top:0;z-index:40;
+  background:var(--green-deep);color:#EAF3EC;
+  padding:max(env(safe-area-inset-top),14px) 16px 14px;
+  display:flex;align-items:center;gap:11px;
+}
+.hdr .brand{flex:1;min-width:0}
+.hdr h1{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.01em;line-height:1.1}
+.hdr .sub{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:rgba(234,243,236,.5);margin-top:3px;display:flex;align-items:center;gap:5px}
+.dot{width:6px;height:6px;border-radius:50%;background:#3ED27F;flex-shrink:0}
+.dot.off{background:#E2A33C}
+.hdr-btn{
+  width:36px;height:36px;border-radius:11px;background:rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;font-size:16px;line-height:1;flex-shrink:0;
+}
+.hdr-btn:active{background:rgba(255,255,255,.2)}
+.hdr-btn.primary{background:#EAF3EC;color:var(--green-deep);font-weight:700;width:auto;padding:0 14px;font-size:14px;letter-spacing:-.01em}
+
+/* mini cross logo */
+.logo{display:grid;grid-template-columns:repeat(7,3px);gap:1.5px;flex-shrink:0}
+.logo i{width:3px;height:3px;border-radius:.5px;background:rgba(255,255,255,.13)}
+.logo i.on{background:#EAF3EC}
+
+/* layout */
+.wrap{padding:18px 16px calc(80px + env(safe-area-inset-bottom))}
+.sec{margin-top:26px}
+.sec-hd{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px;gap:10px}
+.sec-hd .cnt{font-family:'Space Mono',monospace;font-size:10px;color:var(--ink-3)}
+
+/* LED cross */
+.hero{text-align:center;padding:20px 0 2px}
+.cross{display:grid;grid-template-columns:repeat(7,14px);gap:4px;justify-content:center;margin:0 auto 20px}
+.cross i{width:14px;height:14px;border-radius:3px;background:var(--led-off)}
+.cross i.on{background:var(--led);animation:led .45s backwards}
+@keyframes led{from{opacity:.15;transform:scale(.55)}to{opacity:1;transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){.cross i.on{animation:none}}
+.cross[data-s=ok]{--led:var(--green);--led-off:var(--green-soft)}
+.cross[data-s=warn]{--led:var(--amber);--led-off:var(--amber-soft)}
+.cross[data-s=bad]{--led:var(--red);--led-off:var(--red-soft)}
+.hero h2{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:25px;line-height:1.15;letter-spacing:-.03em;margin-bottom:7px}
+.hero p{font-size:14px;color:var(--ink-2);line-height:1.5;max-width:290px;margin:0 auto}
+
+/* stats */
+.stats{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;margin-top:24px}
+.stat{background:var(--card);padding:14px 8px;text-align:center}
+.stat b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:22px;display:block;letter-spacing:-.03em;line-height:1}
+.stat span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);display:block;margin-top:5px}
+
+/* med row */
+.row{
+  display:flex;align-items:center;gap:11px;
+  background:var(--card);border:1px solid var(--line-2);
+  border-radius:var(--r);padding:12px 13px;margin-bottom:7px;
+  position:relative;overflow:hidden;
+}
+.row.dim{opacity:.5}
+.row .bar{position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--accent)}
+.row .body{flex:1;min-width:0;padding-left:4px}
+.row .nm{font-weight:600;font-size:14.5px;letter-spacing:-.01em;line-height:1.25;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row .meta{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:5px}
+.tag{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;padding:2px 6px;border-radius:5px;background:var(--card-2);color:var(--ink-2);white-space:nowrap;line-height:1.4}
+.tag.exp-bad{background:var(--red-soft);color:var(--red);font-weight:700}
+.tag.exp-warn{background:var(--amber-soft);color:var(--amber);font-weight:700}
+.tag.exp-ok{background:transparent;color:var(--ink-3);padding-left:0}
+.tag.rx{background:var(--violet-soft);color:var(--violet);font-weight:700}
+.tag.taken{background:var(--green-soft);color:var(--green);font-weight:700}
+.tag.out{background:var(--red-soft);color:var(--red);font-weight:700}
+
+/* stepper */
+.step{display:flex;align-items:center;gap:1px;background:var(--card-2);border-radius:9px;padding:2px;flex-shrink:0}
+.step button{width:28px;height:28px;border-radius:7px;font-size:16px;font-weight:600;color:var(--ink-2);display:flex;align-items:center;justify-content:center;line-height:1}
+.step button:active{background:var(--card)}
+.step b{font-family:'Space Mono',monospace;font-weight:700;font-size:13px;min-width:20px;text-align:center}
+
+/* search + filters */
+.search{position:relative;margin-bottom:10px}
+.search input{
+  width:100%;padding:11px 13px 11px 36px;border-radius:12px;
+  border:1px solid var(--line);background:var(--card);font-size:15px;letter-spacing:-.01em;
+}
+.search input::placeholder{color:var(--ink-3)}
+.search .ic{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:13px;opacity:.45;pointer-events:none}
+.seg{display:flex;background:var(--card-2);border-radius:11px;padding:3px;margin-bottom:10px}
+.seg button{flex:1;padding:7px;border-radius:8px;font-size:12.5px;font-weight:600;color:var(--ink-2);letter-spacing:-.01em}
+.seg button.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(0,0,0,.07)}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:2px;margin-bottom:12px;scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  padding:6px 11px;border-radius:99px;border:1px solid var(--line);
+  background:var(--card);font-size:12.5px;font-weight:600;white-space:nowrap;
+  color:var(--ink-2);display:inline-flex;align-items:center;gap:5px;flex-shrink:0;letter-spacing:-.01em;
+}
+.chip .n{font-family:'Space Mono',monospace;font-size:10px;opacity:.6}
+.chip.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+/* group header */
+.grp{display:flex;align-items:center;gap:9px;margin:20px 0 9px}
+.grp .lbl{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);font-weight:700}
+.grp .ln{flex:1;height:1px;background:var(--line)}
+.grp .n{font-family:'Space Mono',monospace;font-size:10px;color:var(--ink-3)}
+
+/* alerts */
+.alert{border-radius:var(--r);padding:13px 14px;margin-bottom:8px;border:1px solid}
+.alert.bad{background:var(--red-soft);border-color:rgba(190,47,38,.22)}
+.alert.warn{background:var(--amber-soft);border-color:rgba(179,107,0,.22)}
+.alert .t{font-weight:700;font-size:13px;margin-bottom:8px;letter-spacing:-.01em}
+.alert.bad .t{color:var(--red)} .alert.warn .t{color:var(--amber)}
+.alert .li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:5px 0;font-size:13.5px;border-top:1px solid rgba(128,128,128,.14)}
+.alert .li:first-of-type{border-top:none}
+.alert .li span:first-child{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.alert .li .d{font-family:'Space Mono',monospace;font-size:10px;flex-shrink:0;font-weight:700}
+.alert.bad .li .d{color:var(--red)} .alert.warn .li .d{color:var(--amber)}
+
+/* symptoms */
+.sym-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sym{background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);padding:14px 12px;text-align:left}
+.sym .e{font-size:22px;line-height:1;display:block;margin-bottom:9px}
+.sym .l{font-weight:600;font-size:13.5px;letter-spacing:-.01em;line-height:1.25;display:block}
+.sym .a{font-family:'Space Mono',monospace;font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;margin-top:6px;color:var(--green);font-weight:700;display:block}
+.sym .a.none{color:var(--ink-3);font-weight:400}
+
+/* contacts */
+.con{background:var(--card);border:1px solid var(--line-2);border-radius:var(--r);padding:15px;margin-bottom:8px;position:relative;overflow:hidden}
+.con .bar{position:absolute;left:0;top:0;bottom:0;width:3px}
+.con .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.con .lb{font-weight:700;font-size:13.5px;letter-spacing:-.01em}
+.con .nm{font-size:15px;font-weight:600;margin-top:6px;letter-spacing:-.01em}
+.con .ad{font-size:13.5px;color:var(--ink-2);margin-top:4px;line-height:1.4}
+.con .ph{display:inline-flex;align-items:center;gap:7px;margin-top:11px;background:var(--green-soft);color:var(--green);font-weight:700;font-size:14px;padding:8px 14px;border-radius:10px;text-decoration:none}
+.con .nt{font-size:12px;color:var(--ink-3);margin-top:8px}
+.con .empty{font-size:13.5px;color:var(--ink-3);margin-top:5px}
+.sos{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.sos a{background:var(--red-soft);border:1px solid rgba(190,47,38,.22);border-radius:var(--r);padding:14px;text-align:center;text-decoration:none;display:block}
+.sos b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:24px;color:var(--red);display:block;line-height:1;letter-spacing:-.02em}
+.sos span{font-family:'Space Mono',monospace;font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-2);display:block;margin-top:6px}
+
+/* forms */
+.fld{margin-bottom:16px}
+.fld > label{display:block;font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-2);margin-bottom:7px;font-weight:700}
+.fld input,.fld textarea{
+  width:100%;padding:11px 13px;border-radius:11px;
+  border:1px solid var(--line);background:var(--card);font-size:15.5px;letter-spacing:-.01em;
+}
+.fld textarea{resize:vertical;min-height:66px;line-height:1.45;font-size:14.5px}
+.fld input:focus,.fld textarea:focus{outline:none;border-color:var(--green)}
+.opts{display:flex;flex-wrap:wrap;gap:6px}
+.opt{
+  padding:8px 12px;border-radius:10px;border:1px solid var(--line);
+  background:var(--card);font-size:13px;font-weight:600;color:var(--ink-2);letter-spacing:-.01em;
+}
+.opt.on{border-color:var(--sel);color:var(--sel);background:var(--card-2)}
+.opts.two{display:grid;grid-template-columns:1fr 1fr}
+.opts.two .opt{text-align:left}
+.btn{width:100%;padding:14px;border-radius:13px;font-weight:700;font-size:15.5px;background:var(--btn);color:var(--btn-ink);letter-spacing:-.01em}
+.btn:disabled{background:var(--line);color:var(--ink-3)}
+.btn.ghost{background:var(--card-2);color:var(--ink-2);font-weight:600}
+.btn.danger{background:var(--red-soft);color:var(--red)}
+.btn-row{display:flex;gap:8px;margin-top:8px}
+.btn-row .btn{flex:1}
+
+/* sheet */
+.veil{position:fixed;inset:0;background:rgba(7,19,16,.55);z-index:90;opacity:0;transition:opacity .25s;-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
+.veil.in{opacity:1}
+.sheet{
+  position:fixed;left:50%;bottom:0;transform:translate(-50%,100%);
+  width:100%;max-width:520px;z-index:91;
+  background:var(--card);border-radius:24px 24px 0 0;box-shadow:var(--shadow-lg);
+  max-height:88vh;overflow-y:auto;-webkit-overflow-scrolling:touch;
+  transition:transform .3s cubic-bezier(.32,.72,0,1);
+  padding-bottom:calc(20px + env(safe-area-inset-bottom));
+}
+.sheet.in{transform:translate(-50%,0)}
+@media (prefers-reduced-motion:reduce){.sheet,.veil{transition:none}}
+.sheet .grab{width:34px;height:4px;border-radius:99px;background:var(--line);margin:10px auto 0}
+.sheet .pad{padding:16px 20px 0}
+.sheet h3{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:21px;letter-spacing:-.025em;line-height:1.2}
+.sheet .close{position:absolute;top:14px;right:16px;width:30px;height:30px;border-radius:50%;background:var(--card-2);display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--ink-2)}
+
+.dt-hd{display:flex;gap:13px;align-items:flex-start;margin-bottom:16px;padding-right:34px}
+.dt-ic{width:44px;height:44px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;background:var(--card-2)}
+.dt-rows{border:1px solid var(--line-2);border-radius:var(--r);overflow:hidden;margin-bottom:14px}
+.dt-r{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:11px 14px;border-top:1px solid var(--line-2);font-size:14px}
+.dt-r:first-child{border-top:none}
+.dt-r .k{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);flex-shrink:0}
+.dt-r .v{font-weight:600;text-align:right;letter-spacing:-.01em}
+.note{background:var(--card-2);border-radius:var(--r);padding:13px 14px;font-size:14px;line-height:1.5;color:var(--ink-2);margin-bottom:14px}
+.warn-box{background:var(--violet-soft);border-radius:var(--r);padding:12px 14px;font-size:13px;line-height:1.45;color:var(--violet);margin-bottom:14px;font-weight:500}
+.hint{font-size:12px;color:var(--ink-3);line-height:1.55;margin-top:14px}
+
+/* nav */
+.nav{
+  position:fixed;bottom:0;left:50%;transform:translateX(-50%);
+  width:100%;max-width:520px;z-index:50;
+  background:var(--card);border-top:1px solid var(--line-2);
+  display:flex;padding:6px 4px calc(6px + env(safe-area-inset-bottom));
+}
+.nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:5px 0;border-radius:10px;position:relative}
+.nav .i{font-size:16px;line-height:1;opacity:.4;position:relative}
+.nav .l{font-size:9.5px;font-weight:600;color:var(--ink-3)}
+.nav button.on .i{opacity:1}
+.nav button.on .l{color:var(--ink)}
+.badge{position:absolute;top:-5px;left:11px;background:var(--red);color:#fff;font-family:'Space Mono',monospace;font-size:8.5px;font-weight:700;min-width:15px;height:15px;border-radius:99px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+
+/* empty */
+.empty-st{text-align:center;padding:42px 24px}
+.empty-st .e{font-size:32px;display:block;margin-bottom:12px;opacity:.5}
+.empty-st b{font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:17px;display:block;margin-bottom:5px;letter-spacing:-.02em}
+.empty-st p{font-size:13.5px;color:var(--ink-2);line-height:1.5;max-width:260px;margin:0 auto}
+
+/* boot */
+.boot{height:100vh;height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px}
+.boot .cross i.on{animation:pulse 1.4s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.25}}
+.boot p{font-family:'Space Mono',monospace;font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-3)}
 </style>
 </head>
 <body>
-<div id="app"><div class="loading"><div style="font-size:48px">💊</div><div class="spinner"></div><div style="color:#64748B;font-weight:500;font-size:13px">Connecting...</div></div></div>
+<div id="app"><div class="boot"><div id="boot-cross"></div><p>Connecting</p></div></div>
+<div id="layer"></div>
 
 <script>
-// ═══ FIREBASE ═══
+"use strict";
+
+/* ═══ FIREBASE ═══ */
 firebase.initializeApp({
   apiKey:"AIzaSyB0JCcoreS7kogGTYOM8NwhrPHcuiLMRlU",
   authDomain:"pharmacy-2711.firebaseapp.com",
@@ -80,361 +294,786 @@ firebase.initializeApp({
   appId:"1:594051637720:web:f8db8143bf8cb05b3c52ad"
 });
 var db=firebase.database();
-var medsRef=db.ref("meds");
-var contactsRef=db.ref("contacts");
+var medsRef=db.ref("meds"), contactsRef=db.ref("contacts");
 
-// ═══ CONSTANTS ═══
+/* ═══ CONSTANTS ═══ */
 var CATS={
-  pain_fever:{l:"Pain & Fever",i:"\uD83D\uDC8A",c:"#DC2626"},
-  cold_flu:{l:"Cold & Flu",i:"\uD83E\uDD27",c:"#2563EB"},
-  digestive:{l:"Digestive",i:"\uD83E\uDE7A",c:"#16A34A"},
-  allergies:{l:"Allergies",i:"\uD83C\uDF38",c:"#D97706"},
-  skin_wounds:{l:"Skin & Wounds",i:"\uD83E\uDE79",c:"#EA580C"},
-  antibiotics:{l:"Antibiotics",i:"\uD83D\uDC89",c:"#7C3AED"},
-  vitamins:{l:"Vitamins",i:"\u2728",c:"#0D9488"},
-  eye_ear_nose:{l:"Eye/Ear/Nose",i:"\uD83D\uDC41\uFE0F",c:"#475569"},
-  vet_milo:{l:"Vet \u2014 Milo",i:"\uD83D\uDC3E",c:"#A855F7"},
-  other:{l:"Other",i:"\uD83D\uDCE6",c:"#6B7280"}
+  pain_fever:{l:"Pain & fever",e:"\uD83D\uDC8A",c:"#BE2F26"},
+  cold_flu:{l:"Cold & flu",e:"\uD83E\uDD27",c:"#2563EB"},
+  digestive:{l:"Digestive",e:"\uD83E\uDDA0",c:"#00934B"},
+  allergies:{l:"Allergies",e:"\uD83C\uDF38",c:"#B36B00"},
+  skin_wounds:{l:"Skin & wounds",e:"\uD83E\uDE79",c:"#EA580C"},
+  antibiotics:{l:"Antibiotics",e:"\uD83D\uDC89",c:"#6D4AA8"},
+  vitamins:{l:"Vitamins",e:"\u2728",c:"#0D9488"},
+  eye_ear_nose:{l:"Eye, ear & nose",e:"\uD83D\uDC41\uFE0F",c:"#475569"},
+  vet_milo:{l:"Milo",e:"\uD83D\uDC3E",c:"#A855F7"},
+  other:{l:"Other",e:"\uD83D\uDCE6",c:"#6B7280"}
 };
-var LOCS=["Small Cabinet","Box 1","Box 2","Fridge","Bathroom"];
+var CAT_ORDER=["pain_fever","cold_flu","digestive","allergies","skin_wounds","antibiotics","vitamins","eye_ear_nose","vet_milo","other"];
+var LOCS=["Small Cabinet","Box 1","Box 2","Fridge","Bathroom","Travel bag"];
 var UNITS=["box","tube","bottle","pack","piece"];
+
 var SYMS=[
-  {id:"headache",l:"Headache",i:"\uD83E\uDD15",cats:["pain_fever"]},
-  {id:"fever",l:"Fever",i:"\uD83C\uDF21\uFE0F",cats:["pain_fever","cold_flu"]},
-  {id:"cold",l:"Cold / Runny nose",i:"\uD83E\uDD27",cats:["cold_flu","allergies"]},
-  {id:"sore_throat",l:"Sore Throat",i:"\uD83D\uDE2E",cats:["cold_flu","pain_fever"]},
-  {id:"cough",l:"Cough",i:"\uD83D\uDE37",cats:["cold_flu"]},
-  {id:"stomach",l:"Stomach Ache",i:"\uD83E\uDD22",cats:["digestive"]},
-  {id:"nausea",l:"Nausea",i:"\uD83E\uDD2E",cats:["digestive"]},
-  {id:"diarrhea",l:"Diarrhea",i:"\uD83D\uDCA7",cats:["digestive"]},
-  {id:"heartburn",l:"Heartburn",i:"\uD83D\uDD25",cats:["digestive"]},
-  {id:"allergy",l:"Allergies",i:"\uD83C\uDF3C",cats:["allergies"]},
-  {id:"burn",l:"Burn",i:"\uD83D\uDD25",cats:["skin_wounds"]},
-  {id:"cut",l:"Cut / Wound",i:"\uD83E\uDE78",cats:["skin_wounds"]},
-  {id:"muscle",l:"Muscle Pain",i:"\uD83D\uDCAA",cats:["pain_fever"]},
-  {id:"back",l:"Back Pain",i:"\uD83E\uDDB4",cats:["pain_fever"]},
-  {id:"bite",l:"Insect Bite",i:"\uD83E\uDD9F",cats:["skin_wounds","allergies"]},
-  {id:"rash",l:"Skin Rash",i:"\uD83D\uDE16",cats:["skin_wounds","allergies"]},
-  {id:"eye",l:"Eye Irritation",i:"\uD83D\uDC41\uFE0F",cats:["eye_ear_nose"]},
-  {id:"ear",l:"Earache",i:"\uD83D\uDC42",cats:["eye_ear_nose","pain_fever"]},
-  {id:"period",l:"Menstrual Pain",i:"\u2640\uFE0F",cats:["pain_fever"]},
-  {id:"sleep",l:"Sleep Issues",i:"\uD83D\uDE34",cats:["other"]}
+  {id:"headache",l:"Headache",e:"\uD83E\uDD15",k:["paracetam","tachipirina","efferalgan","flomax","brufen","moment","nurofen","aspirin","ibuprofen"],c:["pain_fever"],
+   a:["headache","head ache","migraine","migraines","emicrania","mal di testa","cefalea","testa","mal de tete","mal de crane","cephalee","tete"]},
+  {id:"fever",l:"Fever",e:"\uD83C\uDF21\uFE0F",k:["paracetam","tachipirina","efferalgan","flomax","tachifludec","brufen","ibuprofen","thermometer"],c:["pain_fever"],
+   a:["fever","temperature","febbre","fievre","chills","brividi","frissons","hot","burning up"]},
+  {id:"cold",l:"Cold & flu",e:"\uD83E\uDD27",k:["tachifludec","actifed","physiomer","physio","vitamina c"],c:["cold_flu"],
+   a:["cold","flu","influenza","raffreddore","rhume","grippe","sick","malato","malade","chills"]},
+  {id:"throat",l:"Sore throat",e:"\uD83D\uDE36",k:["tantum","borocillina","strepsils","gola","bialcol"],c:["cold_flu"],
+   a:["sore throat","throat","gola","mal di gola","gorge","mal de gorge","angina","tonsils","tonsille","swallow","deglutire"]},
+  {id:"cough",l:"Cough",e:"\uD83D\uDE37",k:["fluimucil","lisomucil","tosse","mucolit"],c:["cold_flu"],
+   a:["cough","tosse","toux","chest","catarro","phlegm","mucus","muco","glaire","expectorant"]},
+  {id:"nose",l:"Blocked nose",e:"\uD83D\uDC43",k:["rinosan","rinazina","physiomer","physio water","nasal"],c:["cold_flu"],
+   a:["blocked nose","stuffy nose","runny nose","congestion","naso","naso chiuso","nez","nez bouche","rhinite","sinus","sinusite","sinusitis","sneezing","starnuti","eternuements"]},
+  {id:"heartburn",l:"Heartburn",e:"\uD83D\uDD25",k:["gaviscon","rennie","citrosodina","dispepril","pantorc","sucralfato","antacid","reflux"],c:["digestive"],
+   a:["heartburn","acid","reflux","acidita","bruciore di stomaco","stomach burn","burning stomach","gastrite","gastritis","brulure estomac","brulures d estomac","remontees acides","indigestion","digestione","aigreurs"]},
+  {id:"cramps",l:"Stomach cramps",e:"\uD83D\uDE2C",k:["buscopan","spasfon","duspatal","valpinax","spasm","cramp"],c:["digestive"],
+   a:["stomach","stomach cramps","stomach ache","stomach pain","belly","pancia","mal di pancia","stomaco","crampi","ventre","mal de ventre","colique","spasms","spasmi","ibs","colon irritabile","bloating","gonfiore","ballonnement"]},
+  {id:"nausea",l:"Nausea",e:"\uD83E\uDD22",k:["peridon","biochetasi","nausea"],c:["digestive"],
+   a:["nausea","vomit","vomiting","vomito","vomir","nausee","queasy","motion sickness","travel sickness","mal d auto","mal des transports","hangover","postumi"]},
+  {id:"diarrhea",l:"Diarrhoea",e:"\uD83D\uDCA7",k:["imodium","loperamide","normix","bimixin","enterogermina","probiotic","lacto","pefs"],c:["digestive"],
+   a:["diarrhea","diarrhoea","diarrea","diarrhee","loose","the runs","stomach bug","gastroenterite","gastro","food poisoning","intossicazione","turista","travellers"]},
+  {id:"constipation",l:"Constipation",e:"\uD83E\uDEA0",k:["prontex","microclisma","lassativo","laxative","enema","clisma"],c:[],
+   a:["constipation","constipated","stipsi","stitichezza","costipazione","blocked","bowel","cant go","transit","transito"]},
+  {id:"allergy",l:"Allergy & hives",e:"\uD83C\uDF3C",k:["xyzal","zirtec","cetiriz","antihistamine","allerg"],c:["allergies"],
+   a:["allergy","allergies","allergia","allergie","hives","orticaria","urticaire","hay fever","pollen","polline","itching","itchy","prurito","demangeaison","antihistamine","antistaminico"]},
+  {id:"bite",l:"Insect bite",e:"\uD83E\uDD9F",k:["xyzal","zirtec","gentalyn","cortison","antihistamine","repellent"],c:["allergies"],
+   a:["insect bite","bite","bites","bitten","mosquito","mosquitoes","zanzara","zanzare","moustique","puntura","punture","piqure","sting","stung","ape","wasp","vespa","guepe","tick","zecca","tique"]},
+  {id:"cut",l:"Cut or graze",e:"\uD83E\uDE78",k:["betadine","ossigenata","cerotti","garze","sterigrap","band","plaster","bialcol","disinfect","connettivina"],c:["skin_wounds"],
+   a:["cut","wound","graze","scrape","ferita","taglio","coupure","blessure","plaie","bleeding","sangue","saignement","plaster","cerotto","pansement","bandage","blister","vescica","ampoule","splinter","scheggia","echarde"]},
+  {id:"burn",l:"Burn",e:"\uD83E\uDDEF",k:["foille","connettivina","scottature","burn","betadine"],c:["skin_wounds"],
+   a:["burn","burnt","burned","scald","ustione","scottatura","brulure","brule","sunburn","scottatura solare","coup de soleil","hot water","boiling"]},
+  {id:"skin",l:"Skin problem",e:"\uD83E\uDDEB",k:["fucidin","gentalyn","zindaclin","bialcol","aknet","connettivina"],c:["skin_wounds"],
+   a:["skin","skin infection","spot","spots","pimple","acne","boil","brufoli","foruncolo","pelle","peau","infezione pelle","eczema","dermatite","dermatitis","rash","eruzione","bouton","abces","abscess","callus","callo","cor"]},
+  {id:"muscle",l:"Muscle & joints",e:"\uD83D\uDCAA",k:["voltaren","zenol","akba","brufen","ibuprofen","emulgel","magnesio","polimag"],c:["pain_fever"],
+   a:["muscle","muscles","joint","joints","back","back pain","muscolare","muscoli","articolazioni","schiena","mal di schiena","dos","mal de dos","courbature","strain","sprain","storta","entorse","contracture","stiff","neck","cervicale","nuque","knee","ginocchio","genou","shoulder","spalla","epaule","tendon","tendinite","elbow","gomito","coude"]},
+  {id:"eye",l:"Sore eyes",e:"\uD83D\uDC41\uFE0F",k:["imidazyl","collirio","physio water","eye"],c:["eye_ear_nose"],
+   a:["eye","eyes","occhio","occhi","oeil","yeux","red eye","occhi rossi","yeux rouges","conjunctivitis","congiuntivite","conjonctivite","dry eyes","secchezza","irritation","stye","orzaiolo","orgelet"]},
+  {id:"ear",l:"Earache",e:"\uD83D\uDC42",k:["audispray","boral","auricolare","ear"],c:["eye_ear_nose"],
+   a:["ear","ears","earache","orecchio","orecchie","oreille","mal d orecchio","mal d oreille","otite","otitis","wax","cerume","bouchon","blocked ear"]},
+  {id:"period",l:"Period pain",e:"\u2640\uFE0F",k:["brufen","moment","nurofen","ibuprofen","buscopan","spasfon"],c:["pain_fever"],
+   a:["period","period pain","menstrual","ciclo","mestruazioni","dolori mestruali","regles","douleurs regles","pms","sindrome premestruale","cramps period"]},
+  {id:"intimate",l:"Intimate care",e:"\uD83C\uDF37",k:["ovamex","amelgen","neoxene","lavanda","vaginal","lacto acid"],c:[],
+   a:["intimate","vaginal","vagina","thrush","candida","candidosi","mycose","mughetto","cystitis","cistite","cystite","infezione intima","hygiene intime","itching down there"]},
+  {id:"sleep",l:"Can't sleep",e:"\uD83D\uDE34",k:["melatonin","melatonina"],c:[],
+   a:["sleep","insomnia","insonnia","insomnie","cant sleep","sonno","dormir","dormire","jet lag","awake","sveglio","reveil"]},
+  {id:"energy",l:"Low energy",e:"\uD83C\uDF31",k:["vitamina","magnesio","polimag","folidex","pefs","supplement"],c:["vitamins"],
+   a:["energy","low energy","tired","tiredness","fatigue","stanchezza","stanco","fatigue","fatigué","vitamin","vitamins","vitamina","vitamine","supplement","integratore","complement","magnesium","magnesio","run down","spossatezza"]},
+  {id:"infection",l:"Antibiotic course",e:"\uD83E\uDDA0",k:["augmentin","ciproxin","bactrim","flagyl","normix","bimixin","fucidin","gentalyn","zindaclin"],c:["antibiotics"],
+   a:["infection","infezione","antibiotic","antibiotics","antibiotico","antibiotique","bacterial","batterica","prescribed","cure","cystitis","cistite","tooth","dente","dent"]},
+  {id:"travel",l:"Travel kit",e:"\u2708\uFE0F",k:["malarone","repellent","imodium","thermometer","cerotti","physiomer"],c:[],
+   a:["travel","trip","viaggio","voyage","malaria","paludisme","tropical","africa","mission","holiday","vacanza","vacances","flight","volo","kit"]},
+  {id:"milo",l:"Milo unwell",e:"\uD83D\uDC08",k:["florentero","clorexyderm"],c:["vet_milo"],
+   a:["milo","cat","chat","gatto","pet","vet","veterinario","veterinaire","animal","kitty","micio"]}
 ];
-var PRE=[
-  {n:"Tachipirina 1000mg",cat:"pain_fever",u:"box",no:"Paracetamol. Max 3g/day. 1 tab every 6-8h."},
-  {n:"Efferalgan 1000mg",cat:"pain_fever",u:"box",no:"Paracetamol effervescent. Dissolve in water."},
-  {n:"Moment 200mg",cat:"pain_fever",u:"box",no:"Ibuprofen. Take with food."},
-  {n:"Nurofen 400mg",cat:"pain_fever",u:"box",no:"Ibuprofen. Max 1200mg/day."},
-  {n:"Aspirina 500mg",cat:"pain_fever",u:"box",no:"Aspirin. Not on empty stomach."},
-  {n:"Voltaren Emulgel",cat:"pain_fever",u:"tube",no:"Diclofenac gel. Apply 3-4x/day."},
-  {n:"Spasfon",cat:"digestive",u:"box",no:"Stomach cramps. Max 6/day."},
-  {n:"Gaviscon",cat:"digestive",u:"bottle",no:"Heartburn. After meals."},
-  {n:"Imodium",cat:"digestive",u:"box",no:"Loperamide. For diarrhea."},
-  {n:"Biochetasi",cat:"digestive",u:"box",no:"Effervescent. Digestive aid."},
-  {n:"Enterogermina",cat:"digestive",u:"box",no:"Probiotics."},
-  {n:"Rennie",cat:"digestive",u:"box",no:"Chewable antacid."},
-  {n:"Actifed",cat:"cold_flu",u:"box",no:"Decongestant for cold/flu."},
-  {n:"Rinazina Spray",cat:"cold_flu",u:"bottle",no:"Nasal decongestant. Max 3 days."},
-  {n:"Physiomer",cat:"cold_flu",u:"bottle",no:"Seawater nasal spray."},
-  {n:"Fluimucil 600mg",cat:"cold_flu",u:"box",no:"Mucolytic for cough."},
-  {n:"Strepsils",cat:"cold_flu",u:"box",no:"Throat lozenges."},
-  {n:"Zirtec 10mg",cat:"allergies",u:"box",no:"Cetirizine. 1/day."},
-  {n:"Betadine 10%",cat:"skin_wounds",u:"bottle",no:"Wound disinfectant."},
-  {n:"Acqua Ossigenata",cat:"skin_wounds",u:"bottle",no:"Hydrogen peroxide."},
-  {n:"Connettivina Crema",cat:"skin_wounds",u:"tube",no:"Burns, wounds, skin repair."},
-  {n:"Gentalyn Beta",cat:"skin_wounds",u:"tube",no:"Antibiotic+cortisone. Rx."},
-  {n:"Cerotti (Band-Aids)",cat:"skin_wounds",u:"box",no:"Assorted plasters."},
-  {n:"Garze Sterili",cat:"skin_wounds",u:"pack",no:"Sterile gauze."},
-  {n:"Foille Scottature",cat:"skin_wounds",u:"tube",no:"For minor burns."},
-  {n:"Augmentin",cat:"antibiotics",u:"box",no:"PRESCRIPTION. Full course."},
-  {n:"Vitamina C 1000mg",cat:"vitamins",u:"box",no:"Vitamin C effervescent."},
-  {n:"Vitamina D",cat:"vitamins",u:"bottle",no:"Important in winter."},
-  {n:"Magnesio Supremo",cat:"vitamins",u:"bottle",no:"Fatigue, cramps."},
-  {n:"Collirio",cat:"eye_ear_nose",u:"bottle",no:"Eye drops."},
-  {n:"Melatonina",cat:"other",u:"box",no:"Sleep aid. 1-3mg."},
-  {n:"Thermometer",cat:"other",u:"piece",no:"Digital. Check battery."}
-];
-var DEF_CONTACTS={
-  c1:{id:"c1",type:"pharmacy",label:"\uD83C\uDFE5 Closest Pharmacy",name:"",address:"",phone:"",notes:"",h24:false},
-  c2:{id:"c2",type:"pharmacy",label:"\uD83C\uDFE5 24/7 Pharmacy",name:"",address:"",phone:"",notes:"Open 24 hours",h24:true},
-  c3:{id:"c3",type:"vet",label:"\uD83D\uDC3E Milo's Vet",name:"",address:"",phone:"",notes:""},
-  c4:{id:"c4",type:"vet",label:"\uD83D\uDEA8 Milo 24/7 Emergency Vet",name:"",address:"",phone:"",notes:"Emergency",h24:true}
-};
 
-// ═══ STATE ═══
-var meds={};
-var contacts={};
-var tab="home";
-var search="";
-var filterCat="all";
-var inStockOnly=false;
-var selSym=null;
-var form=null;
-var editId=null;
-var delId=null;
-var editContact=null;
-var ready=false;
+/* ═══ STATE ═══ */
+var meds={}, contacts={}, ready=false, online=true;
+var tab="home", q="", catF="all", groupBy="cat", sortBy="name", stockF="in";
+var symSel=null, symQ="", sheet=null, scrollMemo={};
+var form=null, formEditId=null;
 
+/* ═══ HELPERS ═══ */
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;")}
+function arr(o){return o?Object.keys(o).map(function(k){return o[k]}):[]}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,8)}
-function medsArr(){return Object.values(meds)}
-function contactsArr(){return Object.values(contacts)}
-function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/"/g,"&quot;").replace(/'/g,"&#39;").replace(/</g,"&lt;").replace(/>/g,"&gt;")}
+var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
-function expInfo(d){
-  if(!d)return{s:"unknown",l:"No date",c:"#9CA3AF"};
-  var now=new Date();
-  var e=new Date(d+"-01");
-  e.setMonth(e.getMonth()+1);
-  e.setDate(0);
-  var diff=(e-now)/864e5;
-  if(diff<0)return{s:"expired",l:"Expired",c:"#DC2626"};
-  if(diff<90)return{s:"soon",l:Math.ceil(diff)+"d left",c:"#D97706"};
-  var parts=d.split("-");
-  var mn=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
-  return{s:"ok",l:mn[parseInt(parts[1])-1]+" "+parts[0],c:"#16A34A"};
+function expiry(s){
+  if(!s||!/^\d{4}-\d{2}$/.test(s))return{s:"none",label:"No date set",short:"No date",days:null};
+  var p=s.split("-"), end=new Date(+p[0],+p[1],0,23,59,59);
+  var days=Math.ceil((end-new Date())/864e5);
+  var pretty=MN[+p[1]-1]+" "+p[0];
+  if(days<0)return{s:"bad",label:"Expired "+pretty,short:"EXP "+pretty,days:days};
+  if(days<=90)return{s:"warn",label:days+" days left \u00B7 "+pretty,short:days+"D LEFT",days:days};
+  return{s:"ok",label:"Good until "+pretty,short:pretty,days:days};
 }
+function isRx(m){return /\brx\b|prescription/i.test(m.notes||"")}
+function usesOf(m){
+  return String(m.uses||"").split(",").map(function(x){return x.trim()}).filter(Boolean);
+}
+function symById(id){var r=null;SYMS.forEach(function(s){if(s.id===id)r=s});return r}
+function norm(s){
+  return String(s==null?"":s).toLowerCase()
+    .normalize?String(s==null?"":s).toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g,"").replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim()
+    :String(s==null?"":s).toLowerCase().replace(/[^a-z0-9 ]/g," ").replace(/\s+/g," ").trim();
+}
+/* free-text -> symptoms, tolerant of EN / IT / FR and partial words.
+   Ranks on: match tier, then how much of the phrase matched, then how tight the fit is. */
+function resolveSymptoms(query){
+  var nq=norm(query);
+  if(nq.length<2)return [];
+  var words=nq.split(" ").filter(function(w){return w.length>=3});
+  var hits=[];
+  SYMS.forEach(function(s){
+    var pool=[norm(s.l)].concat((s.a||[]).map(norm));
+    var tier=0, fit=0, hitWords={};
+    pool.forEach(function(al){
+      if(!al)return;
+      var t=0;
+      if(al===nq)t=5;
+      else if(al.indexOf(nq)===0||nq.indexOf(al)===0)t=4;
+      else if(al.indexOf(nq)>=0||nq.indexOf(al)>=0)t=3;
+      if(t){
+        var f=Math.min(al.length,nq.length)/Math.max(al.length,nq.length);
+        if(t>tier){tier=t;fit=f}
+        else if(t===tier&&f>fit)fit=f;
+      }
+      var alw=al.split(" ");
+      for(var j=0;j<words.length;j++){
+        var w=words[j];
+        for(var i=0;i<alw.length;i++){
+          if(alw[i]===w){hitWords[w]=Math.max(hitWords[w]||0,w.length*2);if(tier<3)tier=3;break}
+          if(alw[i].indexOf(w)===0||w.indexOf(alw[i])===0){hitWords[w]=Math.max(hitWords[w]||0,w.length);if(tier<2)tier=2;break}
+        }
+      }
+    });
+    if(!tier)return;
+    var cover=0;
+    Object.keys(hitWords).forEach(function(k){cover+=hitWords[k]});
+    hits.push({s:s,tier:tier,cover:cover,fit:fit});
+  });
+  return hits.sort(function(a,b){
+    return b.tier-a.tier || b.cover-a.cover || b.fit-a.fit;
+  }).map(function(x){return x.s});
+}
+/* same matching, but across what you've run out of */
+function symMatchesOut(sym){return rank(outStock(),sym,2)}
+/* medicines whose own name / note text mentions the query */
+function medTextMatches(query){
+  var nq=norm(query);
+  if(nq.length<3)return [];
+  return inStock().filter(function(m){
+    return norm(m.name+" "+(m.notes||"")).indexOf(nq)>=0;
+  }).sort(byName);
+}
+function ago(t){
+  if(!t)return null;
+  var mins=Math.floor((Date.now()-t)/6e4);
+  if(mins<1)return"just now";
+  if(mins<60)return mins+"m ago";
+  var h=Math.floor(mins/60);
+  if(h<24)return h+"h ago";
+  var d=Math.floor(h/24);
+  return d===1?"yesterday":d+"d ago";
+}
+function catOf(m){return CATS[m.cat]||CATS.other}
+function unitLabel(m){
+  var u=m.unit||"box", n=m.qty||0;
+  if(n===1)return u;
+  return u==="box"?"boxes":u+"s";
+}
+function inStock(){return arr(meds).filter(function(m){return(m.qty||0)>0})}
+function outStock(){return arr(meds).filter(function(m){return(m.qty||0)===0})}
+function expired(){return inStock().filter(function(m){return expiry(m.exp).s==="bad"})}
+function expiringSoon(){return inStock().filter(function(m){return expiry(m.exp).s==="warn"})}
+function health(){return expired().length?"bad":(expiringSoon().length?"warn":"ok")}
+function byExpiry(a,b){return expiry(a.exp).days-expiry(b.exp).days}
+function byName(a,b){return(a.name||"").localeCompare(b.name||"")}
 
-// ═══ FIREBASE LISTENERS ═══
-medsRef.on("value",function(snap){
-  var v=snap.val();
-  if(v){meds=v}else{
-    var seed={};
-    PRE.forEach(function(m){var id=uid();seed[id]={id:id,name:m.n,cat:m.cat,exp:"",qty:0,unit:m.u,loc:"",notes:m.no}});
-    medsRef.set(seed);
-    meds=seed;
+/* ═══ CROSS ═══ */
+function crossHTML(state){
+  var h='<div class="cross" data-s="'+state+'">';
+  for(var r=0;r<7;r++)for(var c=0;c<7;c++){
+    var on=(c>=2&&c<=4)||(r>=2&&r<=4);
+    var d=Math.abs(r-3)+Math.abs(c-3);
+    h+='<i'+(on?' class="on" style="animation-delay:'+(d*55)+'ms"':'')+'></i>';
   }
-  ready=true;
-  render();
-});
-contactsRef.on("value",function(snap){
-  var v=snap.val();
-  if(v){contacts=v}else{contactsRef.set(DEF_CONTACTS);contacts=JSON.parse(JSON.stringify(DEF_CONTACTS))}
-  render();
-});
-
-// ═══ FORM HELPER FUNCTIONS ═══
-function setCat(c){if(form){form.cat=c;render()}}
-function setUnit(u){if(form){form.unit=u;render()}}
-function setLoc(l){if(form){form.loc=l;render()}}
-function formQtyUp(){if(form){form.qty=(form.qty||0)+1;render()}}
-function formQtyDown(){if(form){form.qty=Math.max(0,(form.qty||0)-1);render()}}
-function updateFormName(v){if(form){form.name=v;var btn=document.getElementById("save-btn");if(btn){btn.disabled=!v.trim();btn.style.background=v.trim()?"linear-gradient(135deg,#065F46,#0D9488)":"#D1D5DB";btn.style.boxShadow=v.trim()?"0 4px 12px rgba(13,148,136,.3)":"none"}}}
-function updateFormExp(v){if(form){form.exp=v}}
-function updateFormQtyInput(v){if(form){form.qty=Math.max(0,parseInt(v)||0)}}
-function updateFormLoc(v){if(form){form.loc=v}}
-function updateFormNotes(v){if(form){form.notes=v}}
-
-// ═══ ACTIONS ═══
-function go(t){tab=t;selSym=null;render()}
-function chgQty(id,d){var m=meds[id];if(m){m.qty=Math.max(0,(m.qty||0)+d);medsRef.child(id).update({qty:m.qty})}}
-function openAdd(){form={name:"",cat:"pain_fever",exp:"",qty:1,unit:"box",loc:"",notes:""};editId=null;tab="form";render()}
-function openEdit(id){var m=meds[id];if(m){form={id:m.id,name:m.name,cat:m.cat,exp:m.exp||"",qty:m.qty||0,unit:m.unit,loc:m.loc||"",notes:m.notes||""};editId=id;tab="form";render()}}
-function handleSave(){
-  if(!form||!form.name.trim())return;
-  if(editId){medsRef.child(editId).set({id:editId,name:form.name,cat:form.cat,exp:form.exp,qty:form.qty,unit:form.unit,loc:form.loc,notes:form.notes})}
-  else{var id=uid();medsRef.child(id).set({id:id,name:form.name,cat:form.cat,exp:form.exp,qty:form.qty||0,unit:form.unit,loc:form.loc,notes:form.notes})}
-  form=null;editId=null;tab="cabinet";
+  return h+'</div>';
 }
-function askDel(id){delId=id;render()}
-function confirmDel(){if(delId){medsRef.child(delId).remove();delId=null}}
-function cancelDel(){delId=null;render()}
-function pickSym(id){selSym=id;render()}
-function backSym(){selSym=null;render()}
-function editCon(id){editContact=id;render()}
-function cancelCon(){editContact=null;render()}
-function saveCon(id){
-  var upd={};
-  ["name","address","phone","notes"].forEach(function(f){var el=document.getElementById("ce-"+f);if(el)upd[f]=el.value});
-  contactsRef.child(id).update(upd);
-  editContact=null;
+function logoHTML(){
+  var h='<div class="logo">';
+  for(var r=0;r<7;r++)for(var c=0;c<7;c++){
+    h+='<i'+(((c>=2&&c<=4)||(r>=2&&r<=4))?' class="on"':'')+'></i>';
+  }
+  return h+'</div>';
 }
-function toggleStock(){inStockOnly=!inStockOnly;render()}
-function setFilter(k){filterCat=(filterCat===k)?"all":k;render()}
-function updateSearch(v){search=v;render()}
-function cancelForm(){form=null;tab="cabinet";render()}
+document.getElementById("boot-cross").outerHTML=crossHTML("ok");
 
-// ═══ RENDER ═══
-function render(){
-  try{
-  if(!ready)return;
-  var ma=medsArr();
-  var inStock=ma.filter(function(m){return m.qty>0});
-  var expired=ma.filter(function(m){return m.qty>0&&expInfo(m.exp).s==="expired"});
-  var soon=ma.filter(function(m){return m.qty>0&&expInfo(m.exp).s==="soon"});
-  var oos=ma.filter(function(m){return m.qty===0});
+/* ═══ ROWS ═══ */
+function rowHTML(m){
+  var cat=catOf(m), ex=expiry(m.exp), taken=ago(m.lastTaken), out=(m.qty||0)===0;
+  var h='<div class="row'+(out?" dim":"")+'" data-act="open" data-id="'+m.id+'">';
+  h+='<span class="bar" style="--accent:'+cat.c+'"></span>';
+  h+='<div class="body"><div class="nm">'+esc(m.name)+'</div><div class="meta">';
+  if(out)h+='<span class="tag out">Out</span>';
+  h+='<span class="tag exp-'+(ex.s==="bad"?"bad":ex.s==="warn"?"warn":"ok")+'">'+ex.short+'</span>';
+  if(m.loc)h+='<span class="tag">'+esc(m.loc)+'</span>';
+  if(isRx(m))h+='<span class="tag rx">Rx</span>';
+  if(taken&&(Date.now()-m.lastTaken)<864e5)h+='<span class="tag taken">Taken '+taken+'</span>';
+  h+='</div></div>';
+  h+='<div class="step"><button data-act="dec" data-id="'+m.id+'" aria-label="One less">\u2212</button><b>'+(m.qty||0)+'</b><button data-act="inc" data-id="'+m.id+'" aria-label="One more">+</button></div>';
+  return h+'</div>';
+}
+
+/* ═══ SCREENS ═══ */
+function screenHome(){
+  var st=health(), exp=expired().sort(byExpiry), soon=expiringSoon().sort(byExpiry);
+  var ins=inStock(), out=outStock(), head, sub;
+  if(st==="bad"){
+    head=exp.length===1?"One medicine has expired":exp.length+" medicines have expired";
+    sub="Bin them, then set the quantity to zero so they land on your shopping list.";
+  }else if(st==="warn"){
+    head=soon.length===1?"One medicine expires soon":soon.length+" medicines expire soon";
+    sub="Still fine to use, but worth replacing on your next pharmacy run.";
+  }else{
+    head="Cabinet\u2019s in good shape";
+    sub="Nothing expired, nothing running out in the next three months.";
+  }
+
+  var h='<div class="wrap"><div class="hero">'+crossHTML(st)+'<h2>'+head+'</h2><p>'+sub+'</p></div>';
+  h+='<div class="stats"><div class="stat"><b>'+ins.length+'</b><span>In stock</span></div>';
+  h+='<div class="stat"><b'+(out.length?'':' style="color:var(--ink-3)"')+'>'+out.length+'</b><span>To buy</span></div>';
+  h+='<div class="stat"><b>'+arr(meds).length+'</b><span>Tracked</span></div></div>';
+
+  if(exp.length){
+    h+='<div class="sec"><div class="alert bad"><div class="t">Expired</div>';
+    exp.forEach(function(m){h+='<div class="li" data-act="open" data-id="'+m.id+'"><span>'+esc(m.name)+'</span><span class="d">'+expiry(m.exp).short+'</span></div>'});
+    h+='</div></div>';
+  }
+  if(soon.length){
+    h+='<div class="'+(exp.length?'':'sec')+'"><div class="alert warn"'+(exp.length?' style="margin-top:8px"':'')+'><div class="t">Expiring soon</div>';
+    soon.forEach(function(m){h+='<div class="li" data-act="open" data-id="'+m.id+'"><span>'+esc(m.name)+'</span><span class="d">'+expiry(m.exp).short+'</span></div>'});
+    h+='</div></div>';
+  }
+
+  var noDate=ins.filter(function(m){return !m.exp}).sort(byName);
+  if(noDate.length){
+    h+='<div class="sec"><div class="sec-hd"><span class="eyebrow">No expiry date yet</span><span class="cnt">'+noDate.length+'</span></div>';
+    h+=noDate.map(rowHTML).join("")+'</div>';
+  }
+  return h+'</div>';
+}
+
+function cabinetList(){
+  var list=arr(meds);
+  if(stockF==="in")list=list.filter(function(m){return(m.qty||0)>0});
+  if(catF!=="all")list=list.filter(function(m){return m.cat===catF});
+  if(q){
+    var s=q.toLowerCase();
+    list=list.filter(function(m){
+      return(m.name||"").toLowerCase().indexOf(s)>=0
+        ||(m.notes||"").toLowerCase().indexOf(s)>=0
+        ||(m.loc||"").toLowerCase().indexOf(s)>=0;
+    });
+  }
+  list.sort(sortBy==="exp"?function(a,b){
+    var da=expiry(a.exp).days, dbb=expiry(b.exp).days;
+    if(da===null&&dbb===null)return byName(a,b);
+    if(da===null)return 1; if(dbb===null)return -1;
+    return da-dbb;
+  }:byName);
+
+  if(!list.length){
+    return'<div class="empty-st"><span class="e">\uD83D\uDD0E</span><b>Nothing matches</b><p>'+(q?"No medicine called \u201C"+esc(q)+"\u201D. Check the spelling, or clear the search.":"Try switching the filters above.")+'</p></div>';
+  }
+  var h="";
+  if(groupBy==="flat"||q){
+    h=list.map(rowHTML).join("");
+  }else if(groupBy==="cat"){
+    CAT_ORDER.forEach(function(k){
+      var g=list.filter(function(m){return m.cat===k});
+      if(!g.length)return;
+      h+='<div class="grp"><span class="lbl">'+CATS[k].l+'</span><span class="ln"></span><span class="n">'+g.length+'</span></div>';
+      h+=g.map(rowHTML).join("");
+    });
+  }else{
+    var places={}, NOPLACE="Not placed yet";
+    list.forEach(function(m){var p=m.loc||NOPLACE;(places[p]=places[p]||[]).push(m)});
+    Object.keys(places).sort(function(a,b){
+      if(a===NOPLACE)return 1; if(b===NOPLACE)return -1;
+      return a.localeCompare(b);
+    }).forEach(function(p){
+      h+='<div class="grp"><span class="lbl">'+esc(p)+'</span><span class="ln"></span><span class="n">'+places[p].length+'</span></div>';
+      h+=places[p].map(rowHTML).join("");
+    });
+  }
+  return h;
+}
+
+function screenCabinet(){
+  var h='<div class="wrap">';
+  h+='<div class="search"><span class="ic">\uD83D\uDD0D</span><input id="q" type="search" placeholder="Search name, note or place" value="'+esc(q)+'" autocomplete="off" autocorrect="off" spellcheck="false"></div>';
+  h+='<div class="seg"><button data-act="grp" data-v="cat" class="'+(groupBy==="cat"?"on":"")+'">By type</button>';
+  h+='<button data-act="grp" data-v="loc" class="'+(groupBy==="loc"?"on":"")+'">By place</button>';
+  h+='<button data-act="grp" data-v="flat" class="'+(groupBy==="flat"?"on":"")+'">All</button></div>';
+  h+='<div class="chips">';
+  h+='<button class="chip'+(stockF==="in"?" on":"")+'" data-act="stockf">'+(stockF==="in"?"In stock only":"Showing all")+'</button>';
+  h+='<button class="chip'+(sortBy==="exp"?" on":"")+'" data-act="sort">'+(sortBy==="exp"?"By expiry":"A\u2013Z")+'</button>';
+  if(catF!=="all"){
+    h+='<button class="chip on" data-act="cat" data-v="all">'+esc(CATS[catF]?CATS[catF].l:catF)+' \u00D7</button>';
+  }else{
+    CAT_ORDER.forEach(function(k){
+      var n=arr(meds).filter(function(m){return m.cat===k&&(stockF!=="in"||(m.qty||0)>0)}).length;
+      if(n)h+='<button class="chip" data-act="cat" data-v="'+k+'">'+CATS[k].e+' '+CATS[k].l+' <span class="n">'+n+'</span></button>';
+    });
+  }
+  h+='</div><div id="list">'+cabinetList()+'</div></div>';
+  return h;
+}
+
+/* keywords match at word starts only, so "burn" never matches "heartburn" */
+function kwHit(m,keys){
+  var hay=" "+norm((m.name||"")+" "+(m.notes||""))+" ";
+  for(var i=0;i<keys.length;i++){if(hay.indexOf(" "+norm(keys[i]))>=0)return true}
+  return false;
+}
+function scoreFor(m,sym){
+  if(usesOf(m).indexOf(sym.id)>=0)return 3;          /* tagged for this */
+  if(kwHit(m,sym.k))return 2;                        /* named in the medicine */
+  if(sym.c.indexOf(m.cat)>=0)return 1;               /* same shelf */
+  return 0;
+}
+function rank(pool,sym,minScore){
+  var scored=pool.map(function(m){return{m:m,s:scoreFor(m,sym)}}).filter(function(x){return x.s>=minScore});
+  var strong=scored.filter(function(x){return x.s>1});
+  /* only widen to the whole shelf when the precise matches are thin */
+  var use=strong.length>=3?strong:scored;
+  return use.sort(function(a,b){return b.s-a.s||byName(a.m,b.m)}).map(function(x){return x.m});
+}
+function symMatches(sym){return rank(inStock(),sym,1)}
+
+function screenSymptoms(){
+  var h='<div class="wrap">';
+  if(symSel){
+    var sym=null;
+    SYMS.forEach(function(s){if(s.id===symSel)sym=s});
+    if(!sym){symSel=null;return screenSymptoms()}
+    var found=symMatches(sym);
+    h+='<button class="chip" data-act="symback" style="margin-bottom:18px">\u2190 All symptoms</button>';
+    h+='<div style="display:flex;gap:14px;align-items:center;margin-bottom:20px">';
+    h+='<div style="font-size:32px;line-height:1">'+sym.e+'</div>';
+    h+='<div><h2 class="disp" style="font-size:23px;line-height:1.15">'+sym.l+'</h2>';
+    h+='<div class="eyebrow" style="margin-top:5px">'+(found.length?found.length+" in your cabinet":"nothing in your cabinet")+'</div></div></div>';
+    var goneD=symMatchesOut(sym);
+    if(found.length){
+      h+=found.map(rowHTML).join("");
+    }else{
+      h+='<div class="empty-st"><span class="e">\uD83C\uDFE5</span><b>Nothing in stock</b><p>'+(goneD.length?"You track "+(goneD.length===1?"one thing":goneD.length+" things")+" for this, but you\u2019re out of "+(goneD.length===1?"it":"them")+".":"You don\u2019t have anything for "+sym.l.toLowerCase()+" \u2014 worth picking something up.")+'</p></div>';
+    }
+    if(goneD.length){
+      h+='<div class="grp"><span class="lbl">Out of stock</span><span class="ln"></span><span class="n">'+goneD.length+'</span></div>';
+      h+=goneD.map(rowHTML).join("");
+    }
+    if(found.length)h+='<p class="hint">These are things you own that are commonly used for '+sym.l.toLowerCase()+'. It\u2019s a list of what\u2019s in the house, not a recommendation \u2014 read the leaflet for the dose, and ask a pharmacist if you\u2019re unsure or already taking something else.</p>';
+    return h+'</div>';
+  }
+  h+='<div class="search"><span class="ic">\uD83E\uDE7A</span><input id="sq" type="search" placeholder="Type what\u2019s wrong \u2014 any language" value="'+esc(symQ)+'" autocomplete="off" autocorrect="off" spellcheck="false"></div>';
+  h+='<div id="symres">'+symResults()+'</div>';
+  return h+'</div>';
+}
+
+function symResults(){
+  if(!symQ.trim()){
+    var h='<p style="font-size:13.5px;color:var(--ink-2);margin:2px 0 14px;line-height:1.5">Type a symptom above, or pick one below. Try <em>mal di testa</em>, <em>puntura</em>, <em>br\u00fblure</em>, <em>heartburn</em>.</p>';
+    h+='<div class="sym-grid">';
+    SYMS.forEach(function(s){
+      var n=symMatches(s).length, g=n?0:symMatchesOut(s).length;
+      h+='<button class="sym" data-act="sym" data-v="'+s.id+'"><span class="e">'+s.e+'</span><span class="l">'+s.l+'</span>';
+      h+='<span class="a'+(n?"":" none")+'">'+(n?n+" in stock":(g?"out of stock":"nothing"))+'</span></button>';
+    });
+    return h+'</div>';
+  }
+
+  var found=resolveSymptoms(symQ);
   var h="";
 
-  // HEADER
-  h+='<div class="hdr"><div><h1>&#10010; Home Pharmacy</h1><small><span class="sync-dot" style="background:#22C55E"></span>'+inStock.length+' in stock &middot; '+ma.length+' total</small></div><button class="btn-add" onclick="openAdd()">+ Add</button></div>';
-  h+='<div class="ct">';
-
-  // ─── HOME ───
-  if(tab==="home"){
-    h+='<div class="g2" style="margin-bottom:12px">';
-    h+='<div class="st" style="background:#ECFDF5"><div style="font-size:20px">&#x1F48A;</div><div style="font-size:20px;font-weight:800;color:#065F46">'+inStock.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">In Stock</div></div>';
-    h+='<div class="st" style="background:'+(expired.length?"#FEF2F2":"#F9FAFB")+'"><div style="font-size:20px">&#x26A0;&#xFE0F;</div><div style="font-size:20px;font-weight:800;color:'+(expired.length?"#DC2626":"#9CA3AF")+'">'+expired.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">Expired</div></div>';
-    h+='<div class="st" style="background:'+(soon.length?"#FFFBEB":"#F9FAFB")+'"><div style="font-size:20px">&#x23F0;</div><div style="font-size:20px;font-weight:800;color:'+(soon.length?"#D97706":"#9CA3AF")+'">'+soon.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">Expiring Soon</div></div>';
-    h+='<div class="st" style="background:#F9FAFB"><div style="font-size:20px">&#x1F4ED;</div><div style="font-size:20px;font-weight:800;color:#9CA3AF">'+oos.length+'</div><div style="font-size:10px;color:#64748B;font-weight:500">Out of Stock</div></div>';
-    h+='</div>';
-    if(expired.length){
-      h+='<div class="ab" style="background:#FEF2F2;border:1px solid #FECACA"><div class="at" style="color:#DC2626">&#x1F6A8; Expired</div>';
-      expired.forEach(function(m){h+='<div class="ar"><span style="color:#7F1D1D">'+esc(m.name)+'</span><span class="bd" style="background:#DC2626">'+expInfo(m.exp).l+'</span></div>'});
-      h+='</div>';
-    }
-    if(soon.length){
-      h+='<div class="ab" style="background:#FFFBEB;border:1px solid #FDE68A"><div class="at" style="color:#D97706">&#x23F0; Expiring Soon</div>';
-      soon.forEach(function(m){h+='<div class="ar"><span style="color:#78350F">'+esc(m.name)+'</span><span class="bd" style="background:#D97706">'+expInfo(m.exp).l+'</span></div>'});
-      h+='</div>';
-    }
-    h+='<div class="qs"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:4px">&#x1F680; Quick Start</div><div style="font-size:12px;color:#64748B;line-height:1.5">Common FR/IT medicines pre-loaded at <b>0 qty</b>. Go to <b>Cabinet</b>, bump up quantities, add expiry dates &amp; locations.</div></div>';
-  }
-
-  // ─── CABINET ───
-  else if(tab==="cabinet"){
-    var list=ma.slice();
-    if(inStockOnly)list=list.filter(function(m){return m.qty>0});
-    if(filterCat!=="all")list=list.filter(function(m){return m.cat===filterCat});
-    if(search)list=list.filter(function(m){var s=search.toLowerCase();return m.name.toLowerCase().indexOf(s)>=0||(m.loc||"").toLowerCase().indexOf(s)>=0||(m.notes||"").toLowerCase().indexOf(s)>=0});
-    list.sort(function(a,b){if(!a.qty&&b.qty)return 1;if(a.qty&&!b.qty)return-1;return a.name.localeCompare(b.name)});
-    h+='<input class="sr" type="text" placeholder="Search..." value="'+esc(search)+'" oninput="updateSearch(this.value)" style="margin-bottom:7px">';
-    h+='<div class="ps"><button class="pl '+(inStockOnly?"on":"")+'" onclick="toggleStock()">'+(inStockOnly?"&#x2705; In stock":"All")+'</button>';
-    var catKeys=Object.keys(CATS);
-    catKeys.forEach(function(k){var v=CATS[k];var c=ma.filter(function(m){return m.cat===k&&(!inStockOnly||m.qty>0)}).length;if(c)h+='<button class="pl '+(filterCat===k?"on":"")+'" style="'+(filterCat===k?"background:"+v.c+";border-color:"+v.c:"")+'" onclick="setFilter(\''+k+'\')">'+v.i+c+'</button>'});
-    h+='</div>';
-    if(!list.length){h+='<div style="text-align:center;padding:24px;color:#94A3B8"><div style="font-size:32px">&#x1F50D;</div><div style="font-size:12px;margin-top:4px">No medicines found</div></div>'}
-    else{h+='<div style="font-size:10px;color:#94A3B8;margin-bottom:5px">'+list.length+' result'+(list.length>1?"s":"")+'</div>';list.forEach(function(m){h+=medCard(m)})}
-  }
-
-  // ─── GUIDE ───
-  else if(tab==="guide"){
-    if(!selSym){
-      h+='<div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:2px">What\'s wrong?</div><div style="font-size:12px;color:#64748B;margin-bottom:10px">Tap a symptom</div><div class="sg">';
-      SYMS.forEach(function(s){var av=ma.filter(function(m){return s.cats.indexOf(m.cat)>=0&&m.qty>0}).length;h+='<button class="sb" onclick="pickSym(\''+s.id+'\')"><div style="font-size:22px;margin-bottom:2px">'+s.i+'</div><div style="font-weight:600;font-size:11px;color:#1E293B">'+s.l+'</div><div style="font-size:10px;font-weight:500;margin-top:1px;color:'+(av?"#16A34A":"#DC2626")+'">'+(av?av+" available":"Nothing")+'</div></button>'});
-      h+='</div>';
-    } else {
-      var sym=null;
-      SYMS.forEach(function(s){if(s.id===selSym)sym=s});
-      if(!sym){selSym=null;render();return}
-      var sm=ma.filter(function(m){return sym.cats.indexOf(m.cat)>=0&&m.qty>0});
-      h+='<button class="bb" onclick="backSym()">&larr; Back</button>';
-      h+='<div style="background:#fff;border-radius:14px;padding:12px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)"><div style="font-size:28px">'+sym.i+'</div><h3 style="margin:3px 0 0;font-size:16px;font-weight:800;color:#1E293B">'+sym.l+'</h3><div style="font-size:11px;color:#64748B;margin-top:2px">Looking in: '+sym.cats.map(function(c){return CATS[c].l}).join(", ")+'</div></div>';
-      if(sm.length){h+='<div style="font-weight:700;font-size:12px;color:#16A34A;margin-bottom:6px">&#x2705; '+sm.length+' available:</div>';sm.forEach(function(m){h+=medCard(m)})}
-      else{h+='<div style="background:#FEF2F2;border-radius:14px;padding:16px;text-align:center;border:1px solid #FECACA"><div style="font-size:28px;margin-bottom:4px">&#x1F615;</div><div style="font-weight:700;color:#DC2626;margin-bottom:3px">Nothing in stock</div><div style="font-size:12px;color:#7F1D1D">Time to visit the pharmacy!</div></div>'}
-    }
-  }
-
-  // ─── CONTACTS ───
-  else if(tab==="contacts"){
-    var ca=contactsArr();
-    h+='<div style="font-weight:700;font-size:15px;color:#1E293B;margin-bottom:2px">Important Contacts</div><div style="font-size:12px;color:#64748B;margin-bottom:10px">Pharmacies, vets &amp; emergency</div>';
-    h+='<div style="font-weight:700;font-size:12px;color:#065F46;margin-bottom:6px">&#x1F3E5; Pharmacies</div>';
-    ca.forEach(function(c){if(c.type==="pharmacy")h+=contactCard(c)});
-    h+='<div style="font-weight:700;font-size:12px;color:#A855F7;margin-bottom:6px;margin-top:14px">&#x1F43E; Milo &mdash; Vet</div>';
-    ca.forEach(function(c){if(c.type==="vet")h+=contactCard(c)});
-    h+='<div style="background:#FEF2F2;border-radius:14px;padding:12px;margin-top:14px;border:1px solid #FECACA;text-align:center"><div style="font-weight:700;font-size:13px;color:#DC2626;margin-bottom:2px">&#x1F6A8; Emergency</div><div><a href="tel:118" style="color:#DC2626;font-weight:800;font-size:18px;text-decoration:none">118</a><span style="margin:0 8px;opacity:.3">|</span><a href="tel:112" style="color:#DC2626;font-weight:800;font-size:18px;text-decoration:none">112</a></div><div style="font-size:10px;color:#9CA3AF;margin-top:3px">Medical &middot; General</div></div>';
-  }
-
-  // ─── FORM ───
-  else if(tab==="form"&&form){
-    h+='<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px"><h2 style="font-size:16px;font-weight:800;color:#1E293B">'+(editId?"Edit Medicine":"Add Medicine")+'</h2><button onclick="cancelForm()" style="background:none;border:none;font-size:12px;color:#64748B;cursor:pointer;font-weight:600;font-family:inherit">Cancel</button></div>';
-
-    // Name
-    h+='<div class="fg"><label>Name *</label><input value="'+esc(form.name)+'" oninput="updateFormName(this.value)" placeholder="e.g. Efferalgan, Doliprane..."></div>';
-
-    // Category
-    h+='<div class="fg"><label>Category</label><div class="cg">';
-    var catKeys2=Object.keys(CATS);
-    catKeys2.forEach(function(k){
-      var v=CATS[k];
-      var isOn=form.cat===k;
-      h+='<button class="catbtn" style="border-color:'+(isOn?v.c:"#E5E7EB")+';color:'+(isOn?v.c:"#64748B")+';background:'+(isOn?v.c+"15":"#fff")+'" onclick="setCat(\''+k+'\')">'+v.i+' '+v.l+'</button>';
+  if(found.length){
+    var top=found[0], meds1=symMatches(top);
+    h+='<div class="eyebrow" style="margin-bottom:9px">Reading that as</div>';
+    h+='<div class="chips" style="margin-bottom:16px">';
+    found.slice(0,4).forEach(function(s,i){
+      h+='<button class="chip'+(i===0?" on":"")+'" data-act="sym" data-v="'+s.id+'">'+s.e+' '+s.l+'</button>';
     });
-    h+='</div></div>';
-
-    // Expiry + Qty
-    h+='<div class="g2" style="gap:10px"><div class="fg"><label>Expiry</label><input type="month" value="'+(form.exp||"")+'" onchange="updateFormExp(this.value)"></div>';
-    h+='<div class="fg"><label>Quantity</label><div style="display:flex;align-items:center;gap:4px"><button class="qb2" onclick="formQtyDown()">&minus;</button><input type="number" value="'+form.qty+'" min="0" onchange="updateFormQtyInput(this.value)" style="width:44px;text-align:center;padding:5px 3px;border-radius:9px;border:1.5px solid #D1D5DB;font-size:13px;font-family:inherit"><button class="qb2" onclick="formQtyUp()">+</button></div></div></div>';
-
-    // Unit
-    h+='<div class="fg"><label>Unit</label><div class="ur">';
-    UNITS.forEach(function(u){h+='<button class="chip'+(form.unit===u?" on":"")+'" onclick="setUnit(\''+u+'\')">'+u+'</button>'});
-    h+='</div></div>';
-
-    // Location
-    h+='<div class="fg"><label>&#x1F4CD; Location</label><div class="ur">';
-    LOCS.forEach(function(l){h+='<button class="chip'+(form.loc===l?" on":"")+'" onclick="setLoc(\''+esc(l)+'\')">'+esc(l)+'</button>'});
-    h+='</div><input value="'+esc(form.loc)+'" oninput="updateFormLoc(this.value)" placeholder="Or type custom..." style="margin-top:4px;font-size:12px;width:100%;padding:8px 10px;border-radius:9px;border:1.5px solid #D1D5DB;font-family:inherit;box-sizing:border-box"></div>';
-
-    // Notes
-    h+='<div class="fg"><label>Notes</label><textarea oninput="updateFormNotes(this.value)" placeholder="Dosage, instructions..." rows="2">'+esc(form.notes)+'</textarea></div>';
-
-    // Save
-    var canSave=form.name.trim().length>0;
-    h+='<button id="save-btn" class="svbtn" onclick="handleSave()" '+(canSave?"":"disabled")+' style="background:'+(canSave?"linear-gradient(135deg,#065F46,#0D9488)":"#D1D5DB")+';box-shadow:'+(canSave?"0 4px 12px rgba(13,148,136,.3)":"none")+'">'+(editId?"&#x1F4BE; Save":"&#x2705; Add Medicine")+'</button>';
-  }
-
-  h+='</div>'; // close .ct
-
-  // NAV
-  h+='<div class="bn">';
-  [{id:"home",i:"&#x1F3E0;",l:"Home"},{id:"cabinet",i:"&#x1F5C4;&#xFE0F;",l:"Cabinet"},{id:"guide",i:"&#x1FA7A;",l:"Health"},{id:"contacts",i:"&#x1F4CD;",l:"Contacts"}].forEach(function(t){
-    var isOn=tab===t.id||(t.id==="cabinet"&&tab==="form");
-    h+='<button class="'+(isOn?"on":"")+'" onclick="go(\''+t.id+'\')"><span class="ni">'+t.i+'</span><span class="nl">'+t.l+'</span></button>';
-  });
-  h+='</div>';
-
-  // DELETE MODAL
-  if(delId){
-    var dm=meds[delId];
-    h+='<div class="mbg" onclick="cancelDel()"><div class="mdl" onclick="event.stopPropagation()"><div style="font-size:28px;margin-bottom:4px">&#x1F5D1;&#xFE0F;</div><div style="font-weight:700;font-size:14px;margin-bottom:2px">Delete?</div><div style="font-size:12px;color:#64748B;margin-bottom:12px">'+(dm?esc(dm.name):"")+'</div><div style="display:flex;gap:8px"><button class="mb" style="border:1.5px solid #D1D5DB;background:#fff" onclick="cancelDel()">Cancel</button><button class="mb" style="border:none;background:#DC2626;color:#fff" onclick="confirmDel()">Delete</button></div></div></div>';
-  }
-
-  document.getElementById("app").innerHTML=h;
-  }catch(e){console.error("Render error:",e)}
-}
-
-function medCard(m){
-  var cat=CATS[m.cat]||CATS.other;
-  var e=expInfo(m.exp);
-  var h='<div class="cd'+(m.qty===0?" ot":"")+'" style="border-left-color:'+cat.c+'">';
-  h+='<div style="font-size:22px;width:28px;text-align:center;flex-shrink:0">'+cat.i+'</div>';
-  h+='<div style="flex:1;min-width:0">';
-  h+='<div style="font-weight:700;font-size:13px;color:#1E293B;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.name)+'</div>';
-  h+='<div style="display:flex;gap:4px;flex-wrap:wrap;margin-top:2px">';
-  h+='<span class="bd" style="background:'+e.c+'">'+e.l+'</span>';
-  if(m.loc)h+='<span class="bd bg">&#x1F4CD; '+esc(m.loc)+'</span>';
-  if(m.qty===0)h+='<span class="bd" style="background:#DC2626">OUT</span>';
-  h+='</div>';
-  if(m.notes)h+='<div style="font-size:10px;color:#94A3B8;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">'+esc(m.notes)+'</div>';
-  h+='</div>';
-  h+='<div style="display:flex;flex-direction:column;gap:3px;align-items:center;flex-shrink:0">';
-  h+='<div style="display:flex;gap:2px;align-items:center"><button class="qb" onclick="chgQty(\''+m.id+'\',-1)">&minus;</button><span style="width:20px;text-align:center;font-weight:700;font-size:13px;color:#1E293B">'+m.qty+'</span><button class="qb" onclick="chgQty(\''+m.id+'\',1)">+</button></div>';
-  h+='<div style="display:flex;gap:6px"><button class="ib" onclick="openEdit(\''+m.id+'\')">&#x270F;&#xFE0F;</button><button class="ib" onclick="askDel(\''+m.id+'\')">&#x1F5D1;&#xFE0F;</button></div>';
-  h+='</div></div>';
-  return h;
-}
-
-function contactCard(c){
-  if(editContact===c.id){
-    var h='<div class="cc" style="border:2px solid #0D9488"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:8px">'+c.label+'</div>';
-    ["name","address","phone","notes"].forEach(function(f){
-      h+='<div class="fg"><label style="text-transform:capitalize">'+f+'</label><input id="ce-'+f+'" value="'+esc(c[f])+'" placeholder="'+(f==="name"?"e.g. Farmacia Centrale":f==="phone"?"+39 06 ...":f==="address"?"Via Roma 1, Rome":"Notes...")+'"></div>';
-    });
-    h+='<div style="display:flex;gap:6px"><button style="flex:1;padding:9px;border-radius:10px;background:#065F46;color:#fff;border:none;font-weight:700;cursor:pointer;font-family:inherit;font-size:12px" onclick="saveCon(\''+c.id+'\')">Save</button><button style="padding:9px;border-radius:10px;background:#F1F5F9;border:none;font-weight:600;cursor:pointer;font-family:inherit;font-size:12px;color:#64748B" onclick="cancelCon()">Cancel</button></div></div>';
+    h+='</div>';
+    h+='<div style="display:flex;gap:12px;align-items:center;margin-bottom:14px">';
+    h+='<div style="font-size:28px;line-height:1">'+top.e+'</div>';
+    h+='<div><h2 class="disp" style="font-size:20px;line-height:1.15">'+top.l+'</h2>';
+    h+='<div class="eyebrow" style="margin-top:4px">'+(meds1.length?meds1.length+" in your cabinet":"nothing in your cabinet")+'</div></div></div>';
+    var gone=symMatchesOut(top);
+    if(meds1.length){
+      h+=meds1.map(rowHTML).join("");
+    }else{
+      h+='<div class="empty-st"><span class="e">\uD83C\uDFE5</span><b>Nothing in stock</b><p>'+(gone.length?"You track "+(gone.length===1?"one thing":gone.length+" things")+" for this, but you\u2019re out of "+(gone.length===1?"it":"them")+".":"You don\u2019t have anything for "+top.l.toLowerCase()+" \u2014 worth picking something up.")+'</p></div>';
+    }
+    if(gone.length){
+      h+='<div class="grp"><span class="lbl">Out of stock</span><span class="ln"></span><span class="n">'+gone.length+'</span></div>';
+      h+=gone.map(rowHTML).join("");
+    }
+    if(meds1.length)h+='<p class="hint">Things you own that are commonly used for '+top.l.toLowerCase()+'. It\u2019s what\u2019s in the house, not a recommendation \u2014 read the leaflet for the dose, and ask a pharmacist if you\u2019re unsure or already taking something else.</p>';
+    if(found.length>1)h+='<p class="hint">Meant something else? Tap another reading above.</p>';
     return h;
   }
-  var empty=!c.name&&!c.address&&!c.phone;
-  var h='<div class="cc '+(c.h24?"h4":"rg")+'"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div style="flex:1"><div style="font-weight:700;font-size:13px;color:#1E293B;margin-bottom:2px">'+c.label+'</div>';
-  if(empty){h+='<div style="font-size:12px;color:#94A3B8;font-style:italic">Tap &#x270F;&#xFE0F; to add details</div>'}
-  else{
-    if(c.name)h+='<div style="font-size:13px;font-weight:600;color:#334155">'+esc(c.name)+'</div>';
-    if(c.address)h+='<div style="font-size:12px;color:#64748B;margin-top:2px">&#x1F4CD; '+esc(c.address)+'</div>';
-    if(c.phone)h+='<a href="tel:'+esc(c.phone)+'" style="font-size:14px;color:#0D9488;font-weight:700;margin-top:4px;display:inline-block;text-decoration:none">&#x1F4DE; '+esc(c.phone)+'</a>';
-    if(c.notes)h+='<div style="font-size:11px;color:#94A3B8;margin-top:2px">'+esc(c.notes)+'</div>';
+
+  var direct=medTextMatches(symQ);
+  if(direct.length){
+    h+='<div class="eyebrow" style="margin-bottom:9px">No symptom matched \u2014 medicines mentioning \u201C'+esc(symQ)+'\u201D</div>';
+    return h+direct.map(rowHTML).join("");
   }
-  h+='</div><button class="ib" onclick="editCon(\''+c.id+'\')">&#x270F;&#xFE0F;</button></div></div>';
-  return h;
+  return '<div class="empty-st"><span class="e">\uD83E\uDD14</span><b>Not sure what that is</b><p>Try a simpler word \u2014 <em>stomach</em>, <em>pancia</em>, <em>t\u00eate</em>, <em>bite</em> \u2014 or pick from the list by clearing the search.</p></div>';
 }
+
+function screenBuy(){
+  var out=outStock().sort(byName), exp=expired().sort(byExpiry);
+  var h='<div class="wrap">';
+  if(!out.length&&!exp.length){
+    return h+'<div class="empty-st"><span class="e">\u2705</span><b>Nothing to buy</b><p>Everything you track is in stock and in date. When something runs out, it shows up here.</p></div></div>';
+  }
+  if(exp.length){
+    h+='<div class="sec-hd"><span class="eyebrow">Expired \u2014 replace</span><span class="cnt">'+exp.length+'</span></div>';
+    h+=exp.map(rowHTML).join("");
+  }
+  if(out.length){
+    h+='<div'+(exp.length?' class="sec"':'')+'><div class="sec-hd"><span class="eyebrow">Out of stock</span><span class="cnt">'+out.length+'</span></div>';
+    h+='<p style="font-size:13px;color:var(--ink-2);margin-bottom:14px;line-height:1.5">Tap + once you\u2019ve bought something and it moves back into the cabinet.</p>';
+    var byCat={};
+    out.forEach(function(m){(byCat[m.cat]=byCat[m.cat]||[]).push(m)});
+    CAT_ORDER.forEach(function(k){
+      if(!byCat[k])return;
+      h+='<div class="grp"><span class="lbl">'+CATS[k].l+'</span><span class="ln"></span><span class="n">'+byCat[k].length+'</span></div>';
+      h+=byCat[k].map(rowHTML).join("");
+    });
+    h+='</div>';
+  }
+  return h+'</div>';
+}
+
+function contactHTML(c){
+  var empty=!c.name&&!c.address&&!c.phone;
+  var col=c.h24?"var(--red)":(c.type==="vet"?"var(--violet)":"var(--green)");
+  var h='<div class="con"><span class="bar" style="background:'+col+'"></span><div class="hd"><div style="flex:1;min-width:0">';
+  h+='<div class="lb">'+esc(c.label)+'</div>';
+  if(empty){h+='<div class="empty">Not saved yet \u2014 add the name, address and number.</div>'}
+  else{
+    if(c.name)h+='<div class="nm">'+esc(c.name)+'</div>';
+    if(c.address)h+='<div class="ad">'+esc(c.address)+'</div>';
+    if(c.notes)h+='<div class="nt">'+esc(c.notes)+'</div>';
+  }
+  h+='</div><button class="hdr-btn" style="background:var(--card-2);color:var(--ink-2);width:32px;height:32px;font-size:13px" data-act="econ" data-id="'+c.id+'" aria-label="Edit">\u270E</button></div>';
+  if(c.phone)h+='<a class="ph" href="tel:'+esc(c.phone)+'">\uD83D\uDCDE '+esc(c.phone)+'</a>';
+  return h+'</div>';
+}
+
+function screenContacts(){
+  var ca=arr(contacts), h='<div class="wrap">';
+  h+='<div class="sec-hd"><span class="eyebrow">Pharmacies</span></div>';
+  ca.filter(function(c){return c.type==="pharmacy"}).forEach(function(c){h+=contactHTML(c)});
+  h+='<div class="sec"><div class="sec-hd"><span class="eyebrow">Milo \u2014 vet</span></div>';
+  ca.filter(function(c){return c.type==="vet"}).forEach(function(c){h+=contactHTML(c)});
+  h+='</div><div class="sec"><div class="sec-hd"><span class="eyebrow">Emergency \u2014 Italy</span></div>';
+  h+='<div class="sos"><a href="tel:112"><b>112</b><span>All emergencies</span></a><a href="tel:118"><b>118</b><span>Ambulance</span></a></div>';
+  h+='<p class="hint">112 is the single European emergency number and works from any phone, even without a SIM.</p></div>';
+  return h+'</div>';
+}
+
+/* ═══ SHELL ═══ */
+var TABS=[
+  {id:"home",i:"\u271A",l:"Home"},
+  {id:"cabinet",i:"\uD83D\uDDC4\uFE0F",l:"Cabinet"},
+  {id:"symptoms",i:"\uD83E\uDE7A",l:"Symptoms"},
+  {id:"buy",i:"\uD83D\uDED2",l:"To buy"},
+  {id:"contacts",i:"\uD83D\uDCCD",l:"Contacts"}
+];
+
+function render(){
+  if(!ready)return;
+  var key=tab+(symSel||"");
+  var ins=inStock().length, buy=outStock().length+expired().length;
+
+  var h='<div class="hdr">'+logoHTML();
+  h+='<div class="brand"><h1>Farmacia</h1><div class="sub"><span class="dot'+(online?"":" off")+'"></span>'+ins+' in stock</div></div>';
+  h+='<button class="hdr-btn" data-act="menu" aria-label="More">\u22EF</button>';
+  h+='<button class="hdr-btn primary" data-act="add">+ Add</button></div>';
+
+  if(tab==="home")h+=screenHome();
+  else if(tab==="cabinet")h+=screenCabinet();
+  else if(tab==="symptoms")h+=screenSymptoms();
+  else if(tab==="buy")h+=screenBuy();
+  else h+=screenContacts();
+
+  h+='<nav class="nav">';
+  TABS.forEach(function(t){
+    h+='<button data-act="tab" data-v="'+t.id+'" class="'+(tab===t.id?"on":"")+'">';
+    h+='<span class="i">'+t.i+'</span>';
+    if(t.id==="buy"&&buy)h+='<span class="badge">'+buy+'</span>';
+    h+='<span class="l">'+t.l+'</span></button>';
+  });
+  h+='</nav>';
+
+  document.getElementById("app").innerHTML=h;
+  window.scrollTo(0,scrollMemo[key]||0);
+}
+window.addEventListener("scroll",function(){
+  if(ready)scrollMemo[tab+(symSel||"")]=window.scrollY;
+},{passive:true});
+
+/* ═══ SHEETS ═══ */
+function openSheet(html){
+  var l=document.getElementById("layer");
+  l.innerHTML='<div class="veil" data-act="closesheet"></div><div class="sheet"><div class="grab"></div><button class="close" data-act="closesheet" aria-label="Close">\u2715</button><div class="pad">'+html+'</div></div>';
+  requestAnimationFrame(function(){
+    var v=l.querySelector(".veil"), s=l.querySelector(".sheet");
+    if(v)v.classList.add("in");
+    if(s)s.classList.add("in");
+  });
+  document.body.style.overflow="hidden";
+}
+function closeSheet(){
+  var l=document.getElementById("layer");
+  var v=l.querySelector(".veil"), s=l.querySelector(".sheet");
+  if(v)v.classList.remove("in");
+  if(s)s.classList.remove("in");
+  document.body.style.overflow="";
+  sheet=null; form=null; formEditId=null;
+  setTimeout(function(){if(!sheet)l.innerHTML=""},320);
+}
+
+function sheetDetail(id){
+  var m=meds[id]; if(!m){closeSheet();return}
+  var wasOpen=sheet&&sheet.type==="detail"&&sheet.id===id;
+  sheet={type:"detail",id:id};
+  var cat=catOf(m), ex=expiry(m.exp), taken=ago(m.lastTaken);
+  var col=ex.s==="bad"?"var(--red)":ex.s==="warn"?"var(--amber)":"var(--ink)";
+  var h='<div class="dt-hd"><div class="dt-ic">'+cat.e+'</div>';
+  h+='<div style="flex:1;min-width:0"><h3>'+esc(m.name)+'</h3>';
+  h+='<div class="eyebrow" style="margin-top:5px">'+cat.l+'</div></div></div>';
+  if(isRx(m))h+='<div class="warn-box">Prescription medicine. Only take this if a doctor prescribed it to you, for this problem \u2014 and finish the course they gave you.</div>';
+  h+='<div class="dt-rows">';
+  h+='<div class="dt-r"><span class="k">Quantity</span><span class="v">'+(m.qty||0)+' '+unitLabel(m)+'</span></div>';
+  h+='<div class="dt-r"><span class="k">Expiry</span><span class="v" style="color:'+col+'">'+ex.label+'</span></div>';
+  h+='<div class="dt-r"><span class="k">Where</span><span class="v">'+(m.loc?esc(m.loc):'<span style="color:var(--ink-3);font-weight:400">Not placed</span>')+'</span></div>';
+  if(taken)h+='<div class="dt-r"><span class="k">Last dose</span><span class="v">'+taken+'</span></div>';
+  h+='</div>';
+  var us=usesOf(m);
+  if(us.length){
+    h+='<div class="eyebrow" style="margin-bottom:8px">Used for</div><div class="chips" style="margin-bottom:16px">';
+    us.forEach(function(u){var sy=symById(u);if(sy)h+='<button class="chip" data-act="symjump" data-v="'+u+'">'+sy.e+' '+sy.l+'</button>'});
+    h+='</div>';
+  }
+  if(m.notes)h+='<div class="note">'+esc(m.notes)+'</div>';
+  h+='<button class="btn" data-act="took" data-id="'+id+'">Log a dose</button>';
+  h+='<div class="btn-row"><button class="btn ghost" data-act="edit" data-id="'+id+'">Edit</button>';
+  h+='<button class="btn danger" data-act="askdel" data-id="'+id+'">Delete</button></div>';
+  h+='<p class="hint">Logging a dose records the time only, so you both know whether it\u2019s already been taken. It doesn\u2019t change the quantity.</p>';
+  if(wasOpen){
+    var pad=document.querySelector(".sheet .pad");
+    if(pad){pad.innerHTML=h;return}
+  }
+  openSheet(h);
+}
+
+function sheetForm(id){
+  formEditId=id||null;
+  var m=id?meds[id]:null;
+  form=m?{name:m.name||"",cat:m.cat||"other",exp:m.exp||"",qty:m.qty||0,unit:m.unit||"box",loc:m.loc||"",notes:m.notes||"",uses:usesOf(m)}
+        :{name:"",cat:"pain_fever",exp:"",qty:1,unit:"box",loc:"",notes:"",uses:[]};
+  sheet={type:"form"};
+  renderForm(true);
+}
+function renderForm(fresh){
+  var h='<h3 style="margin-bottom:20px">'+(formEditId?"Edit medicine":"Add medicine")+'</h3>';
+  h+='<div class="fld"><label>Name</label><input id="f-name" value="'+esc(form.name)+'" placeholder="Tachipirina 1000mg" autocomplete="off"></div>';
+  h+='<div class="fld"><label>Type</label><div class="opts two">';
+  CAT_ORDER.forEach(function(k){
+    h+='<button class="opt'+(form.cat===k?" on":"")+'" style="--sel:'+CATS[k].c+'" data-act="fcat" data-v="'+k+'">'+CATS[k].e+' '+CATS[k].l+'</button>';
+  });
+  h+='</div></div>';
+  h+='<div style="display:grid;grid-template-columns:1.25fr 1fr;gap:12px">';
+  h+='<div class="fld"><label>Expires</label><input id="f-exp" type="month" value="'+esc(form.exp)+'"></div>';
+  h+='<div class="fld"><label>Quantity</label><div class="step" style="height:44px;padding:3px;justify-content:space-between">';
+  h+='<button data-act="fdec" style="width:34px;height:36px;font-size:18px">\u2212</button><b style="font-size:15px">'+form.qty+'</b>';
+  h+='<button data-act="finc" style="width:34px;height:36px;font-size:18px">+</button></div></div></div>';
+  h+='<div class="fld"><label>Unit</label><div class="opts">';
+  UNITS.forEach(function(u){h+='<button class="opt'+(form.unit===u?" on":"")+'" style="--sel:var(--green)" data-act="funit" data-v="'+u+'">'+u+'</button>'});
+  h+='</div></div>';
+  h+='<div class="fld"><label>Where you keep it</label><div class="opts" style="margin-bottom:8px">';
+  LOCS.forEach(function(l){h+='<button class="opt'+(form.loc===l?" on":"")+'" style="--sel:var(--green)" data-act="floc" data-v="'+esc(l)+'">'+esc(l)+'</button>'});
+  h+='</div><input id="f-loc" value="'+esc(form.loc)+'" placeholder="Or type another place"></div>';
+  h+='<div class="fld"><label>Used for \u2014 powers the symptom search</label><div class="opts">';
+  SYMS.forEach(function(sy){
+    h+='<button class="opt'+(form.uses.indexOf(sy.id)>=0?" on":"")+'" style="--sel:var(--green);padding:6px 10px;font-size:12px" data-act="fuse" data-v="'+sy.id+'">'+sy.e+' '+sy.l+'</button>';
+  });
+  h+='</div></div>';
+  h+='<div class="fld"><label>Notes</label><textarea id="f-notes" placeholder="What it\u2019s for, dosage, anything worth remembering">'+esc(form.notes)+'</textarea></div>';
+  h+='<button class="btn" id="f-save" data-act="fsave"'+(form.name.trim()?"":" disabled")+'>'+(formEditId?"Save changes":"Add to cabinet")+'</button>';
+  h+='<div class="btn-row"><button class="btn ghost" data-act="closesheet">Cancel</button></div>';
+
+  var pad=document.querySelector(".sheet .pad");
+  if(!fresh&&pad){
+    var sc=pad.parentNode.scrollTop;
+    pad.innerHTML=h;
+    pad.parentNode.scrollTop=sc;
+  }else{
+    openSheet(h);
+  }
+  bindForm();
+}
+function bindForm(){
+  var n=document.getElementById("f-name");
+  if(n)n.oninput=function(){
+    form.name=this.value;
+    var b=document.getElementById("f-save");
+    if(b)b.disabled=!this.value.trim();
+  };
+  var e=document.getElementById("f-exp"); if(e)e.onchange=function(){form.exp=this.value};
+  var l=document.getElementById("f-loc"); if(l)l.oninput=function(){form.loc=this.value};
+  var t=document.getElementById("f-notes"); if(t)t.oninput=function(){form.notes=this.value};
+}
+function saveForm(){
+  if(!form||!form.name.trim())return;
+  var p={name:form.name.trim(),cat:form.cat,exp:form.exp||"",qty:form.qty||0,unit:form.unit,loc:(form.loc||"").trim(),notes:(form.notes||"").trim(),uses:form.uses.join(",")};
+  if(formEditId){
+    p.id=formEditId;
+    if(meds[formEditId]&&meds[formEditId].lastTaken)p.lastTaken=meds[formEditId].lastTaken;
+    medsRef.child(formEditId).set(p);
+  }else{
+    var id=uid(); p.id=id; medsRef.child(id).set(p);
+  }
+  closeSheet();
+}
+
+function sheetContact(id){
+  var c=contacts[id]; if(!c)return;
+  sheet={type:"contact",id:id};
+  var h='<h3 style="margin-bottom:6px">'+esc(c.label)+'</h3>';
+  h+='<p style="font-size:13.5px;color:var(--ink-2);margin-bottom:20px;line-height:1.5">Saved on both phones. The number becomes tappable once you add it.</p>';
+  [["name","Name","Farmacia Trevi"],["address","Address","Via del Corso 1, Roma"],["phone","Phone","+39 06 1234567"],["notes","Notes","Opening hours, which entrance, anything useful"]].forEach(function(f){
+    h+='<div class="fld"><label>'+f[1]+'</label><input id="c-'+f[0]+'" value="'+esc(c[f[0]]||"")+'" placeholder="'+f[2]+'"'+(f[0]==="phone"?' type="tel"':'')+'></div>';
+  });
+  h+='<button class="btn" data-act="csave" data-id="'+id+'">Save</button>';
+  h+='<div class="btn-row"><button class="btn ghost" data-act="closesheet">Cancel</button></div>';
+  openSheet(h);
+}
+function saveContact(id){
+  var upd={};
+  ["name","address","phone","notes"].forEach(function(f){
+    var el=document.getElementById("c-"+f);
+    if(el)upd[f]=el.value.trim();
+  });
+  contactsRef.child(id).update(upd);
+  closeSheet();
+}
+
+function sheetDelete(id){
+  var m=meds[id]; if(!m)return;
+  sheet={type:"del",id:id};
+  var h='<h3 style="margin-bottom:8px">Delete '+esc(m.name)+'?</h3>';
+  h+='<p style="font-size:14px;color:var(--ink-2);line-height:1.5;margin-bottom:20px">It disappears from both phones. If you\u2019ve just run out, set the quantity to zero instead \u2014 it stays on your shopping list that way.</p>';
+  h+='<button class="btn danger" data-act="dodel" data-id="'+id+'">Delete for good</button>';
+  h+='<div class="btn-row"><button class="btn ghost" data-act="closesheet">Keep it</button></div>';
+  openSheet(h);
+}
+
+function sheetMenu(){
+  sheet={type:"menu"};
+  var h='<h3 style="margin-bottom:18px">Farmacia</h3><div class="dt-rows">';
+  h+='<div class="dt-r"><span class="k">Medicines</span><span class="v">'+arr(meds).length+' \u00B7 '+inStock().length+' in stock</span></div>';
+  h+='<div class="dt-r"><span class="k">Sync</span><span class="v" style="color:'+(online?"var(--green)":"var(--amber)")+'">'+(online?"Connected":"Offline \u2014 will catch up")+'</span></div>';
+  h+='<div class="dt-r"><span class="k">Shared with</span><span class="v">Both phones</span></div></div>';
+  h+='<button class="btn ghost" data-act="export">Download a backup</button>';
+  h+='<p class="hint">The backup is one JSON file with every medicine and contact. Worth keeping a copy somewhere \u2014 it\u2019s the only one outside the database.</p>';
+  openSheet(h);
+}
+
+function exportData(){
+  var blob=new Blob([JSON.stringify({exported:new Date().toISOString(),meds:meds,contacts:contacts},null,2)],{type:"application/json"});
+  var a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download="farmacia-backup-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a); a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);
+}
+
+/* ═══ EVENTS ═══ */
+document.addEventListener("click",function(ev){
+  var t=ev.target.closest?ev.target.closest("[data-act]"):null;
+  if(!t)return;
+  var a=t.getAttribute("data-act"), id=t.getAttribute("data-id"), v=t.getAttribute("data-v");
+
+  if(a==="inc"||a==="dec"){
+    ev.stopPropagation();
+    var m=meds[id]; if(!m)return;
+    var nq=Math.max(0,(m.qty||0)+(a==="inc"?1:-1));
+    m.qty=nq;
+    var b=t.parentNode.querySelector("b"); if(b)b.textContent=nq;
+    var row=t.closest(".row"); if(row)row.classList.toggle("dim",nq===0);
+    medsRef.child(id).update({qty:nq});
+    return;
+  }
+
+  if(a==="tab"){tab=v;symSel=null;symQ="";q="";catF="all";render();return}
+  if(a==="add"){sheetForm(null);return}
+  if(a==="menu"){sheetMenu();return}
+  if(a==="export"){exportData();return}
+  if(a==="closesheet"){closeSheet();return}
+  if(a==="open"){sheetDetail(id);return}
+  if(a==="edit"){sheetForm(id);return}
+  if(a==="askdel"){sheetDelete(id);return}
+  if(a==="dodel"){medsRef.child(id).remove();closeSheet();return}
+  if(a==="took"){
+    if(meds[id])meds[id].lastTaken=Date.now();
+    medsRef.child(id).update({lastTaken:Date.now()});
+    sheetDetail(id);
+    return;
+  }
+  if(a==="grp"){groupBy=v;render();return}
+  if(a==="cat"){catF=v;render();return}
+  if(a==="stockf"){stockF=stockF==="in"?"all":"in";render();return}
+  if(a==="sort"){sortBy=sortBy==="name"?"exp":"name";render();return}
+  if(a==="sym"){symSel=v;symQ="";render();return}
+  if(a==="symback"){symSel=null;render();return}
+  if(a==="symjump"){closeSheet();tab="symptoms";symSel=v;symQ="";render();return}
+  if(a==="econ"){sheetContact(id);return}
+  if(a==="csave"){saveContact(id);return}
+  if(a==="fcat"){form.cat=v;renderForm();return}
+  if(a==="funit"){form.unit=v;renderForm();return}
+  if(a==="floc"){form.loc=(form.loc===v?"":v);renderForm();return}
+  if(a==="fuse"){
+    var ix=form.uses.indexOf(v);
+    if(ix>=0)form.uses.splice(ix,1); else form.uses.push(v);
+    renderForm(); return;
+  }
+  if(a==="finc"){form.qty=(form.qty||0)+1;renderForm();return}
+  if(a==="fdec"){form.qty=Math.max(0,(form.qty||0)-1);renderForm();return}
+  if(a==="fsave"){saveForm();return}
+});
+
+/* live search without losing focus */
+document.addEventListener("input",function(ev){
+  if(!ev.target)return;
+  if(ev.target.id==="q"){
+    q=ev.target.value;
+    var listEl=document.getElementById("list");
+    if(listEl)listEl.innerHTML=cabinetList();
+    return;
+  }
+  if(ev.target.id==="sq"){
+    symQ=ev.target.value;
+    var res=document.getElementById("symres");
+    if(res)res.innerHTML=symResults();
+  }
+});
+
+/* ═══ SYNC ═══ */
+medsRef.on("value",function(s){
+  meds=s.val()||{};
+  Object.keys(meds).forEach(function(k){if(!meds[k].id)meds[k].id=k});
+  ready=true;
+  render();
+  if(sheet&&sheet.type==="detail")sheetDetail(sheet.id);
+},function(){ready=true;online=false;render()});
+
+contactsRef.on("value",function(s){
+  contacts=s.val()||{};
+  if(ready)render();
+});
+
+db.ref(".info/connected").on("value",function(s){
+  online=!!s.val();
+  var d=document.querySelector(".hdr .dot");
+  if(d)d.className="dot"+(online?"":" off");
+});
 </script>
 </body>
 </html>
